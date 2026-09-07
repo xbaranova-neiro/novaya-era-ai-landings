@@ -368,7 +368,7 @@
 .passport-card{transform:none}
 .passport-head{position:relative;align-items:flex-start;gap:8px;flex-wrap:wrap}
 .passport-head svg{flex-shrink:0}
-.passport-head small{white-space:nowrap;line-height:1.5}
+.passport-head small{flex-basis:100%;margin-left:32px;white-space:nowrap;line-height:1.5}
 .passport-portrait{top:auto;bottom:0;height:96%;background:none;mask-image:linear-gradient(to right,transparent 0%,#000 12%,#000 100%);-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 12%,#000 100%)}
 .passport-portrait img{height:125%;bottom:-20%;right:-6%}
 @media(max-width:720px){
