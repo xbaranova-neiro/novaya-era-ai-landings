@@ -336,7 +336,7 @@
 .registration-success h3{margin:0 0 10px}
 .registration-success p{margin:0;color:#bdb6af;font-size:16px;line-height:1.5}
 [data-slot="dialog-overlay"]{background:rgba(20,15,13,.76)!important;backdrop-filter:blur(9px)}
-.registration-modal-custom[data-slot="dialog-content"]{overflow:hidden;border-color:#5a514a;background:#171513;color:#fff}
+.registration-modal-custom[data-slot="dialog-content"]{overflow-y:auto;overscroll-behavior:contain;max-height:calc(100dvh - 24px);border-color:#5a514a;background:#171513;color:#fff}
 .registration-modal-custom .registration-modal-head{border-bottom:1px solid #3b3530;background:#211e1b}
 .registration-modal-body{padding:24px}
 .registration-security{display:flex;align-items:center;gap:8px;margin-top:14px;color:#8f8881;font-size:12px;line-height:1.4}
@@ -363,3 +363,41 @@
 .hero h1 em{display:inline-block;letter-spacing:-.025em;transform:scaleX(1.08);transform-origin:left center}
 @media(max-width:720px){.hero h1{font-size:clamp(62px,16.8vw,80px);line-height:.82;letter-spacing:-.045em}}
 @media(max-width:400px){.hero h1{font-size:clamp(58px,16vw,64px)}}
+
+/* Compact reading rhythm and a server-owned registration response. */
+.registration-official{display:block;width:100%;height:860px;border:0;background:#fff;border-radius:12px}
+.registration-frame-wrap{width:100%;min-width:0}
+.registration-fallback{display:block;padding:18px 0 4px;color:#e4c995;font-size:14px;text-decoration:underline}
+.register-copy h2{font-size:clamp(30px,3.4vw,50px);line-height:1.08;overflow-wrap:normal}
+.registration-entry h3{font-size:clamp(27px,2.6vw,38px);line-height:1.15;margin:20px 0}
+.hero-description{max-width:620px;font-size:19px;font-weight:400}
+.practice-manifesto,.outcomes-section{display:none}
+.site-short .passport-band,.site-short .audience-section,.site-short .format-section{display:none}
+.format-grid article{min-height:0;padding:24px}
+.format-grid h3{margin-top:28px}
+.section,.audience-section{padding-top:64px;padding-bottom:64px}
+.practice-card{min-height:0}
+.practice-card h3{margin-top:34px}
+.day-copy h3{font-size:clamp(22px,2vw,28px);font-weight:650;line-height:1.2}
+.day-copy li{font-size:17px;line-height:1.55}
+@media(max-width:720px){
+ .section,.audience-section,.program-section{padding-top:44px;padding-bottom:44px}
+ .section-heading h2,.audience-intro h2{font-size:34px;line-height:1.08}
+ .section-heading{margin-bottom:24px}
+ .practice-card h3,.format-grid h3{font-size:23px;line-height:1.18;margin-top:20px;margin-bottom:12px}
+ .practice-card p,.format-grid p,.day-copy li{font-size:16px;line-height:1.5}
+ .format-grid article{padding:22px;min-height:0}
+ .day-card{padding:22px;gap:20px}
+ .day-copy h3{font-size:22px;line-height:1.2}
+ .register{padding:26px 20px;gap:24px}
+ .register-copy h2{font-size:32px}
+ .register-copy p{font-size:16px}
+ .registration-entry{padding:22px 18px}
+ .registration-modal-body{padding:12px}
+ .registration-official{height:980px}
+ .hero-subtitle{font-size:22px;line-height:1.25;font-weight:600}
+ .hero-description{font-size:17px;line-height:1.5}
+ .gift-copy h2{font-size:36px}
+ .gift-benefits h3{font-size:21px}
+ .gift-benefits p{font-size:16px}
+}

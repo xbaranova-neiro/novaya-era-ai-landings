@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Award,
@@ -75,10 +75,10 @@ const days = [
     day: '01',
     title: 'Фундамент Новой Эры ИИ, продвинутый промптинг и ИИ‑агенты',
     items: [
-      'Экосистема передовых нейросетей и промпты уровня Top‑2% специалистов.',
+      'Выбор нейросети под задачу и структура точного запроса с контекстом и примерами.',
       'Персональный ИИ‑агент в MyBotica: мониторинг конкурентов и сбор вирусных инфоповодов.',
       'Маркетинговый анализ, упаковка смыслов и продающие карусели для соцсетей.',
-      'Интеграция ИИ в процессы и экономия до 80% времени на операционке.',
+      'Выбор повторяющихся задач, которые можно передать ИИ, и проверка результата.',
     ],
     result: 'Рабочее пространство, ИИ‑агент для аналитики рынка и маркетинговая система под ваш проект.',
   },
@@ -87,7 +87,7 @@ const days = [
     title: 'Визуал, киношное ИИ‑видео и вайбкодинг',
     items: [
       'Сложносоставные ролики и цифровые аватары: сценарий, раскадровка, анимация и динамика.',
-      'Собственные аналоги Trello, Canva и трекеров задач без программистов за 15 минут.',
+      'Прототип собственного трекера задач или веб‑сервиса: от описания до первой версии.',
       'Замена платных зарубежных сервисов собственными разработками.',
     ],
     result: 'Серия рекламных фото, ролик с аватаром и собственный рабочий веб‑сервис.',
@@ -98,8 +98,8 @@ const days = [
     items: [
       '10 критических ошибок, из‑за которых сливают бюджеты и теряют охваты.',
       'Авторские права на ИИ‑контент, штрафы и правила использования в РФ.',
-      'Высокий чек на ИИ‑услуги: коммерческие предложения и очередь из клиентов.',
-      'Стратегия внедрения ИИ в бизнес на 2025–2026 годы.',
+      'Упаковка ИИ‑услуги: состав работ, коммерческое предложение и поиск первых клиентов.',
+      'План внедрения ИИ в ваш бизнес или клиентский проект.',
     ],
     result: 'Понимание юридических границ, защищённый проект и план выхода на высокий чек.',
   },
@@ -114,15 +114,22 @@ const outcomes = [
 ];
 
 function RegistrationWidget() {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
-  const submitted = useRef(false);
+  const [frameWidth, setFrameWidth] = useState(360);
+  const [open, setOpen] = useState(false);
+  const measureFrame = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return;
+    setFrameWidth(node.clientWidth);
+    const observer = new ResizeObserver(([entry]) => setFrameWidth(entry.contentRect.width));
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <div className="registration-entry registration-entry-teaser">
         <div className="registration-entry-top"><span>Бесплатное участие</span><b>0 ₽</b></div>
-        <h3>Забронируйте место<br />на практикуме</h3>
-        <ul><li><Check />15–17 сентября, каждый день в 19:00</li><li><Check />Три дня живой практики</li><li><Check />Приглашение сразу после регистрации</li></ul>
+        <h3>15–17 сентября</h3>
+        <ul><li><Check />Каждый день в 19:00</li><li><Check />Онлайн · три практических эфира</li></ul>
         <DialogTrigger render={<Button className="registration-cta" />}>
           Зарегистрироваться бесплатно <ArrowRight />
         </DialogTrigger>
@@ -134,38 +141,10 @@ function RegistrationWidget() {
           <DialogDescription>15–17 сентября · каждый день в 19:00 · участие бесплатно</DialogDescription>
         </DialogHeader>
         <div className="registration-modal-body">
-          {status === 'success' ? (
-            <div className="registration-success" role="status">
-              <span><Check /></span>
-              <div><h3>Вы зарегистрированы</h3><p>Проверьте почту — приглашение и программа уже в пути.</p></div>
-            </div>
-          ) : (
-            <form
-              className="registration-form"
-              action="https://neyroseti.neiroguru.ru/pl/lite/block-public/process?id=2249731039"
-              method="post"
-              target="registration-result"
-              onSubmit={() => { submitted.current = true; setStatus('sending'); }}
-            >
-              <input type="hidden" name="formParams[willCreatePaidDeal]" value="0" />
-              <input type="hidden" name="formParams[in_widget]" value="1" />
-              <input type="hidden" name="__gc__internal__form__helper" value="https://neyroseti.neiroguru.ru/pl/lite/widget/widget?id=1652829" />
-              <div className="registration-fields">
-                <label><span>Ваше имя</span><input required autoComplete="name" name="formParams[full_name]" placeholder="Как к вам обращаться" /></label>
-                <label><span>Телефон</span><input required autoComplete="tel" inputMode="tel" name="formParams[phone]" placeholder="+7 999 888-55-44" /></label>
-                <label className="registration-email"><span>E-mail</span><input required type="email" autoComplete="email" name="formParams[email]" placeholder="mail@example.ru" /></label>
-              </div>
-              <div className="registration-consents">
-                <label><input required type="checkbox" name="consent_personal" /><i><Check /></i><span>Я согласен на обработку персональных данных и ознакомлен с <a href="https://xeniabaranova-school.ru/politica" target="_blank" rel="noreferrer">Политикой обработки данных</a>.</span></label>
-                <label><input type="checkbox" name="consent_mailing" /><i><Check /></i><span>Даю согласие на получение информационных и маркетинговых рассылок. Отказаться можно в любой момент.</span></label>
-              </div>
-              <button className="registration-cta" type="submit" disabled={status === 'sending'}>
-                {status === 'sending' ? 'Отправляем…' : 'Зарегистрироваться бесплатно'} <ArrowRight />
-              </button>
-            </form>
-          )}
-          <iframe className="registration-result-frame" title="Результат регистрации" name="registration-result" onLoad={() => { if (submitted.current) setStatus('success'); }} />
-          {status !== 'success' && <small className="registration-security"><ShieldCheck /> Данные передаются напрямую в защищённую систему школы.</small>}
+          <div ref={measureFrame} className="registration-frame-wrap">
+            <iframe className="registration-official" style={{ width: Math.max(360, frameWidth), zoom: Math.min(1, frameWidth / 360) }} title="Регистрация и согласия на участие в практикуме" src="https://neyroseti.neiroguru.ru/pl/lite/widget/widget?id=1652829" />
+          </div>
+          <a className="registration-fallback" href="https://neyroseti.neiroguru.ru/pl/lite/widget/widget?id=1652829" target="_blank" rel="noreferrer">Не загружается форма? Открыть отдельно ↗</a>
         </div>
       </DialogContent>
     </Dialog>
@@ -212,7 +191,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
   const asset = (name: string) => `${assetBase}${name}`;
 
   return (
-    <main className="site">
+    <main className={`site ${isShort ? 'site-short' : 'site-full'}`}>
       <div className="hero-stage" id="top">
         <header className="topbar shell">
           <a href="#top" className="logo" aria-label="15–17 сентября, начало в 19:00">
@@ -230,7 +209,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
             <div className="pill"><span>NEW</span> ПРАКТИЧЕСКИЙ 3‑ДНЕВНЫЙ ОНЛАЙН‑КУРС</div>
             <h1>Новая<br /><em>Эра ИИ</em></h1>
             <p className="hero-subtitle">Создание контента, автоматизация и вайбкодинг для бизнеса и фриланса</p>
-            <p className="hero-description"><strong>Освойте технологии, о которых 98% ИИ‑рынка ещё не знают.</strong></p>
+            <p className="hero-description">За три дня попробуйте ИИ на задачах своего бизнеса: от контента до первого агента и веб‑сервиса.</p>
             <div className="hero-rotator" aria-label="На курсе: фото и видео высшего качества, автономные ИИ-агенты на MyBotica и собственные веб-сервисы без кода">
               <span>Фото и ИИ‑видео высшего качества</span>
               <span>Автономные ИИ‑агенты на MyBotica</span>
@@ -243,7 +222,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
             <div className="hero-proof">
               <span><b>15–17.09</b><small>каждый день в 19:00</small></span>
               <span><b>9 работ</b><small>в вашем портфолио</small></span>
-              <span><b>−80%</b><small>рутины с помощью ИИ</small></span>
+              <span><b>Практика</b><small>на ваших задачах</small></span>
             </div>
             {!isShort && <a className="gift-teaser" href="#gift"><Gift /><span><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>Персональный тест «Ваш ИИ‑архетип»</b></span><ArrowRight /></a>}
           </div>
@@ -264,7 +243,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
       </section>
 
       <section className="register shell" id="register">
-        <div className="register-copy"><small>15–17 СЕНТЯБРЯ · 19:00 · УЧАСТИЕ БЕСПЛАТНОЕ</small><h2>Закрепите место<br />на онлайн‑курсе</h2><p>Одна регистрация — и вы внутри. Сразу пришлём приглашение и программу{isShort ? '.' : ' и подарок.'}</p></div>
+        <div className="register-copy"><small>БЕСПЛАТНЫЙ ПРАКТИКУМ</small><h2>Примените ИИ<br />к своей задаче</h2><p>Приходите с идеей или рабочим проектом. На эфирах разберём, как ускорить контент и собрать первых ИИ‑помощников.{!isShort && ' После регистрации получите тест «Ваш ИИ‑архетип».'}</p></div>
         <RegistrationWidget />
       </section>
 

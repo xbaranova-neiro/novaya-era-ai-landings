@@ -31,6 +31,9 @@
   --shadow: 0 24px 70px rgba(42, 27, 13, .16);
 }
 
+@font-face{font-family:"Manrope";src:url("../fonts/manrope-latin.woff2") format("woff2");font-style:normal;font-weight:400 800;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:"Montserrat";src:url("../fonts/montserrat-latin.woff2") format("woff2");font-style:normal;font-weight:400 900;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; font-family: "Manrope", Arial, sans-serif; color: var(--ink); background: #fbf8f2; font-size: 17px; line-height: 1.55; }
@@ -179,7 +182,7 @@ h3 { line-height: 1.2; }
 .tariff-card h3 { margin: 7px 0 5px; color: #213447; font-size: 2.65rem; letter-spacing: -.055em; }
 .tariff-label { margin: 0; color: #906a34; font-size: .84rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
 .tariff-subtitle { min-height: 58px; margin-bottom: 18px; color: #536474; font-size: 1rem; font-weight: 700; line-height: 1.4; }
-.tariff-planet { position: relative; display: block; overflow: hidden; width: auto; height: auto; aspect-ratio: 1 / 1; margin: -24px -26px 23px; background: #0b0909; border-bottom: 1px solid #6f5330; }
+.tariff-planet { position: relative; display: block; overflow: hidden; width: 104px; height: 104px; flex: 0 0 104px; aspect-ratio: 1 / 1; margin: 0 0 20px; background: #0b0909; border: 1px solid #6f5330; border-radius: 20px; }
 .tariff-planet::after { content: ""; position: absolute; inset: auto 0 0; height: 28%; pointer-events: none; background: linear-gradient(transparent, rgba(8,6,6,.58)); }
 .tariff-planet img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .price-block { margin: 4px 0; padding: 18px 0 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -348,7 +351,7 @@ h3 { line-height: 1.2; }
   .choice-grid { grid-template-columns: 1fr; }
   .tariff-grid { gap: 22px; }
   .tariff-card { padding: 22px 20px 22px; border-radius: 22px; }
-  .tariff-planet { width: auto; height: auto; aspect-ratio: 1 / 1; margin: -22px -20px 21px; }
+  .tariff-planet { width: 88px; height: 88px; flex-basis: 88px; margin: 0 0 18px; }
   .tariff-card h3 { font-size: 2.55rem; }
   .tariff-subtitle { min-height: auto; font-size: 1rem; }
   .tariff-note { min-height: auto; }
@@ -377,4 +380,42 @@ h3 { line-height: 1.2; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
+}
+
+.tariff-card h3{color:#211b17;font-weight:750}
+.tariff-card-max h3{color:#f0cf98}
+.tariff-subtitle{font-weight:500;color:#655c53}
+.tariff-note{color:#554b40;background:#eee8de;min-height:0;font-size:14px}
+.tariff-label{font-size:12px}
+.price-caption,.future-price,.installment{font-size:14px}
+.tariff-button{margin-top:20px}
+.course-questions details{border-bottom:1px solid var(--line);padding:22px 0}
+.course-questions summary{font-size:19px;font-weight:650;cursor:pointer;line-height:1.4}
+.course-questions details p{max-width:760px;margin:16px 0 0;color:var(--muted);font-size:17px}
+.payment-dialog{max-height:calc(100dvh - 24px);overscroll-behavior:contain;color:#211b17;background:#fbf8f2;border-color:#cdbd9f}
+.payment-dialog-head{background:#f7f2e9;border-color:#dfd2bf}
+.payment-dialog-head span{color:#765b36}
+.payment-dialog-head button{color:#211b17;background:#e9dfd0}
+.route{display:none}
+section[id]{scroll-margin-top:80px}
+@media(max-width:680px){
+ .section{padding:44px 0}
+ .tariff-heading{gap:8px;margin-bottom:24px}
+ .tariff-heading p{font-size:16px;line-height:1.5}
+ .tariff-card{padding:24px;display:grid;grid-template-columns:minmax(0,1fr) 88px;column-gap:12px}
+ .tariff-card>.tariff-planet{grid-column:2;grid-row:1/4;align-self:start;margin:0}
+ .tariff-label,.tariff-card h3,.tariff-subtitle{grid-column:1}
+ .tariff-card h3{font-size:30px;line-height:1.1;margin:8px 0}
+ .tariff-subtitle{font-size:15px;margin:0 0 20px;line-height:1.4}
+ .tariff-card>.price-block,.tariff-card>ul,.tariff-card>.tariff-note,.tariff-card>.tariff-button{grid-column:1/-1}
+ .tariff-card ul{margin:18px 0}
+ .tariff-card li{font-size:16px;margin:8px 0}
+ .tariff-card .current-price{font-size:38px}
+ .tariff-note{margin-bottom:0}
+ .course-questions summary{font-size:17px}
+ .course-questions details p{font-size:16px}
+ .hero-facts span{font-size:13px}
+ .hero-lead{font-size:17px;line-height:1.5}
+ .audience-card h3{margin-top:16px}
+ .audience-card li{font-size:16px}
 }
