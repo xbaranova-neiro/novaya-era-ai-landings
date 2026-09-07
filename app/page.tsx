@@ -319,18 +319,15 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
       {isFresh && !isShort && <section className="fresh-gift-reveal" id="fresh-gift">
         <div className="shell fresh-gift-wrap">
           <div className="fresh-gift-copy">
-            <small>ПОДАРОК СРАЗУ ПОСЛЕ РЕГИСТРАЦИИ</small>
-            <h2>Не просто тест.<br /><em>Ваша личная карта роста с ИИ.</em></h2>
-            <p>За несколько минут вы увидите, где ИИ усилит именно вас — без случайного набора сервисов и чужих сценариев.</p>
-            <div className="fresh-gift-points">
-              <article><span>01</span><div><b>Ваш ИИ‑архетип</b><p>Сильная роль и естественный стиль работы с технологиями.</p></div></article>
-              <article><span>02</span><div><b>Персональный стек</b><p>Нейросети, которые дадут максимум результата под ваши задачи.</p></div></article>
-              <article><span>03</span><div><b>Первый маршрут</b><p>Что делегировать ИИ сначала, чтобы быстрее освободить время и вырасти.</p></div></article>
-            </div>
+            <small>МГНОВЕННЫЙ БОНУС ЗА РЕГИСТРАЦИЮ</small>
+            <h2>Получите индивидуальный <em>ИИ-профиль и карту развития</em></h2>
+            <p>Сразу после регистрации вы попадете в бот, где сможете пройти быстрый тест.</p>
+            <p>Всего за <strong>4 вопроса</strong> система определит ваши сильные стороны, покажет ваш идеальный стек нейросетей (от Midjourney и Kling до Cursor и Claude) и подскажет, какую рутину делегировать искусственному интеллекту в первую очередь.</p>
+            <p className="fresh-gift-summary">Получите персональный маршрут под свой склад ума и задачи!</p>
             <a href="#register">Получить карту бесплатно <ArrowRight /></a>
           </div>
-          <div className="fresh-result-card" aria-label="Пример персонального результата теста">
-            <div className="fresh-result-top"><span className="fresh-window-dots" aria-hidden="true"><i /><i /><i /></span><span>ВАШ ПЕРСОНАЛЬНЫЙ РЕЗУЛЬТАТ</span><b>02 / 04</b></div>
+          <div className="fresh-result-card fresh-result-example" aria-label="Пример персонального результата теста">
+            <div className="fresh-result-top"><span className="fresh-window-dots" aria-hidden="true"><i /><i /><i /></span><span>ПРИМЕР ИИ-ПРОФИЛЯ</span><b>02 / 04</b></div>
             <small>ОТЧЁТ ОБ ИИ‑АРХЕТИПЕ</small>
             <h3>Креатор‑<br /><em>визионер</em></h3>
             <p>Вы мыслите образами, эмоциями и визуалом. Ваша сила — зацепить внимание с первых секунд.</p>

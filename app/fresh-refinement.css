@@ -81,6 +81,19 @@
 }
 
 /* Quiet price caption below the CTA, without another competing card. */
+.theme-fresh .fresh-gift-wrap{grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);align-items:center}
+.theme-fresh .fresh-gift-copy>p{margin:18px 0;max-width:720px}
+.theme-fresh .fresh-gift-copy .fresh-gift-summary{font-weight:650;color:#253e53;margin-bottom:24px}
+.theme-fresh .fresh-result-example{width:100%;max-width:410px;justify-self:end;padding:24px}
+.theme-fresh .fresh-result-example h3{font-size:38px}
+.theme-fresh .fresh-result-example>p{font-size:14px}
+.theme-fresh .fresh-result-example .fresh-result-superpower{padding:14px;margin-top:18px}
+.theme-fresh .fresh-result-example .fresh-result-superpower b{font-size:20px}
+.theme-fresh .fresh-result-example .fresh-result-columns{gap:10px}
+.theme-fresh .fresh-result-example .fresh-result-columns>div{padding:12px}
+.theme-fresh .fresh-result-example .fresh-result-columns small{font-size:10px}
+.theme-fresh .fresh-result-example .fresh-result-delegate p,.theme-fresh .fresh-result-example .fresh-result-stack span{font-size:12px}
+@media(max-width:1080px){.theme-fresh .fresh-gift-wrap{grid-template-columns:1fr}.theme-fresh .fresh-result-example{justify-self:center}}
 .theme-fresh .hero-action .fresh-offer-card{padding:0 10px;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none}
 .theme-fresh .hero-action .fresh-price{display:flex!important;justify-content:flex-start;align-items:baseline!important;gap:10px!important;width:100%;margin:0;padding:0;min-height:0}
 .theme-fresh .hero-action .fresh-price>span:first-child{margin-right:8px;color:#526574;font:500 16px/1.5 var(--font-body);text-transform:none}
