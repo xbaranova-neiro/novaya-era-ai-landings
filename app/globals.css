@@ -369,13 +369,13 @@
 .passport-head{position:relative;align-items:flex-start;gap:8px;flex-wrap:wrap}
 .passport-head svg{flex-shrink:0}
 .passport-head small{white-space:nowrap;line-height:1.5}
-.passport-portrait{top:76px;bottom:0;height:auto;background:none;mask-image:linear-gradient(to bottom,#000 85%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 85%,transparent 100%)}
-.passport-portrait img{height:115%;bottom:-17%;right:-12%}
+.passport-portrait{top:auto;bottom:0;height:96%;background:none;mask-image:linear-gradient(to right,transparent 0%,#000 12%,#000 100%);-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 12%,#000 100%)}
+.passport-portrait img{height:125%;bottom:-20%;right:-6%}
 @media(max-width:720px){
  .passport-head span{font-size:12px;letter-spacing:.025em}
  .passport-head small{flex-basis:100%;margin-left:32px;font-size:11px}
- .passport-portrait{top:90px;width:52%}
- .passport-portrait img{height:112%;right:-22%;bottom:-14%}
+ .passport-portrait{top:auto;width:53%;height:92%}
+ .passport-portrait img{height:118%;right:-18%;bottom:-12%}
 }
 .registration-official{display:block;width:100%;height:860px;border:0;background:#fff;border-radius:12px}
 .registration-frame-wrap{width:100%;min-width:0}
