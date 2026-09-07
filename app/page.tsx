@@ -182,6 +182,27 @@ function AutoLoopVideo({ src, poster, label }: { src: string; poster: string; la
   return <video ref={videoRef} autoPlay muted loop playsInline preload="none" poster={poster} src={shouldLoad ? src : undefined} aria-label={label} />;
 }
 
+function HeroFilm({ asset }: { asset: (name: string) => string }) {
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const player = video.current;
+    if (!player || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    player.defaultMuted = true;
+    player.muted = true;
+    const play = () => { if (!document.hidden) void player.play().catch(() => {}); };
+    play();
+    player.addEventListener('canplay', play);
+    document.addEventListener('visibilitychange', play);
+    return () => { player.removeEventListener('canplay', play); document.removeEventListener('visibilitychange', play); };
+  }, []);
+  return <div className="fresh-hero-film" aria-hidden="true">
+    <video ref={video} autoPlay muted loop playsInline preload="auto" poster={asset('ksenia-earth-seamless-v3.jpg')} disablePictureInPicture>
+      <source src={asset('ksenia-earth-seamless-v4.mp4')} type="video/mp4" />
+      <source src={asset('ksenia-earth-seamless-v4.webm')} type="video/webm" />
+    </video>
+  </div>;
+}
+
 function SchoolAuthority() {
   return <section className="authority shell" aria-label="Достижения Ксении Барановой">
     <article><b>400 000+</b><span>учеников прошли<br />программы школы</span></article>
@@ -278,12 +299,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
               <a href="#register">Занять место бесплатно <ArrowRight /></a>
               {isFresh ? <div className="fresh-offer-card"><p className="fresh-price"><span>Участие в курсе</span><span className="fresh-price-old"><s>5 900 ₽</s></span><b>0 ₽</b></p><EventCountdown deadline={offerDeadline} /></div> : <p><b>0 ₽</b><span>Участие<br />бесплатное</span></p>}
             </div>
-            {isFresh && <div className="fresh-hero-film" aria-hidden="true">
-              <video autoPlay muted loop playsInline preload="auto" poster={asset('ksenia-earth-seamless-v3.jpg')} disablePictureInPicture>
-                <source src={asset('ksenia-earth-seamless-v4.webm')} type="video/webm" />
-                <source src={asset('ksenia-earth-seamless-v4.mp4')} type="video/mp4" />
-              </video>
-            </div>}
+            {isFresh && <HeroFilm asset={asset} />}
             <div className="hero-proof">
               <span><b>15–17.09</b><small>каждый день в 19:00</small></span>
               <span><b>9 работ</b><small>в вашем портфолио</small></span>
