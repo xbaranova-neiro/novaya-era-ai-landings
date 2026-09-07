@@ -63,7 +63,7 @@ const practice = [
 
 const format = [
   { icon: Clock3, title: '3 живых практических дня', text: 'Реальные демонстрации, разборы кейсов и работа с передовыми нейросетями.', wide: true },
-  { icon: Award, title: 'Домашние задания + разборы', text: 'Практические задания с проверкой и наработкой реального портфолио.' },
+  { icon: Award, title: 'Домашние задания с проверкой кураторов', text: 'Практика после каждого эфира, персональная обратная связь и готовые рабочие решения.' },
   { icon: Bot, title: 'Доступ к MyBotica', text: 'Авторская ИИ‑платформа и приветственные токены.' },
   { icon: Layers3, title: 'Библиотека промптов', text: 'Проверенные формулы и алгоритмы точных запросов.' },
   { icon: Users, title: 'Чат с участниками', text: 'Сообщество специалистов и предпринимателей для обмена опытом и заказами.' },
@@ -109,11 +109,11 @@ const outcomes = [
   ['НАВЫКИ НОВОЙ ЭРЫ ИИ', 'Вайбкодинг, автономные ИИ‑агенты на MyBotica и медиаконтент премиум‑уровня.'],
   ['СВОБОДНОЕ ВРЕМЯ', 'До 80% рутины можно делегировать умным нейропомощникам.'],
   ['ПОРТФЕЛЬ ПРОЕКТОВ', 'Своя база инструментов: от нейрофотосессий до веб‑приложений.'],
-  ['ОФИЦИАЛЬНЫЙ НЕЙРОПАСПОРТ', 'Документ от школы с лицензией Минобрнауки РФ.'],
+  ['ОФИЦИАЛЬНЫЙ ИИ ID', 'Именной документ школы, подтверждающий прохождение курса и выполненные задания.'],
   ['ЭКОНОМИЯ И РОСТ ДОХОДА', 'Замена подписок своими разработками и план выхода на чек от 100 000 ₽.'],
 ];
 
-function RegistrationWidget() {
+function RegistrationWidget({ deadline }: { deadline?: number }) {
   const [frameWidth, setFrameWidth] = useState(360);
   const [open, setOpen] = useState(false);
   const measureFrame = useCallback((node: HTMLDivElement | null) => {
@@ -130,6 +130,7 @@ function RegistrationWidget() {
         <div className="registration-entry-top"><span>Бесплатное участие</span><b>0 ₽</b></div>
         <h3>15–17 сентября</h3>
         <ul><li><Check />Каждый день в 19:00</li><li><Check />Онлайн · три практических эфира</li></ul>
+        {deadline !== undefined && <EventCountdown deadline={deadline} />}
         <DialogTrigger render={<Button className="registration-cta" />}>
           Зарегистрироваться бесплатно <ArrowRight />
         </DialogTrigger>
@@ -181,17 +182,75 @@ function AutoLoopVideo({ src, poster, label }: { src: string; poster: string; la
   return <video ref={videoRef} autoPlay muted loop playsInline preload="none" poster={poster} src={shouldLoad ? src : undefined} aria-label={label} />;
 }
 
+function SchoolAuthority() {
+  return <section className="authority shell" aria-label="Достижения Ксении Барановой">
+    <article><b>400 000+</b><span>учеников прошли<br />программы школы</span></article>
+    <article><b>Госдума РФ</b><span>приглашённый эксперт<br />по искусственному интеллекту</span></article>
+    <article><b>GetAward 2026</b><span>победитель в номинации<br />«Обучение года»</span></article>
+    <article><b>Лицензия</b><span>образовательная школа<br />с официальной лицензией</span></article>
+  </section>;
+}
+
+function EventCountdown({ deadline }: { deadline: number }) {
+  const getSecondsLeft = () => Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+  const [secondsLeft, setSecondsLeft] = useState(getSecondsLeft);
+
+  useEffect(() => {
+    setSecondsLeft(getSecondsLeft());
+    const timer = window.setInterval(() => setSecondsLeft(getSecondsLeft()), 1000);
+    return () => window.clearInterval(timer);
+  }, [deadline]);
+
+  const isFinished = secondsLeft === 0;
+  const timerValue = `${String(Math.floor(secondsLeft / 60)).padStart(2, '0')}:${String(secondsLeft % 60).padStart(2, '0')}`;
+
+  if (isFinished) return null;
+
+  return <div className="fresh-countdown">
+    <span className="fresh-countdown-label">Закрепите стоимость 0 ₽</span>
+    <strong>{timerValue}</strong>
+  </div>;
+}
+
+function FreshUrgencyPopup({ deadline }: { deadline: number }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setOpen(true), 60_000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  return <Dialog open={open} onOpenChange={setOpen}>
+    <DialogContent className="fresh-urgency-popup">
+      <DialogHeader className="fresh-popup-head">
+        <span className="fresh-popup-kicker">НОВАЯ ЭРА ИИ <span>3 дня · онлайн</span></span>
+        <DialogTitle>Ваш следующий шаг —<br /><em>вместе с ИИ.</em></DialogTitle>
+        <DialogDescription>Присоединяйтесь к бесплатному курсу и начните применять ИИ к своим задачам.</DialogDescription>
+      </DialogHeader>
+      <div className="fresh-popup-gift"><span aria-hidden="true"><Gift /></span><div><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>Ваша личная карта роста с ИИ</b><p>Сильная роль, подходящие инструменты и первый шаг — по результатам теста.</p></div></div>
+      <EventCountdown deadline={deadline} />
+      <a className="fresh-popup-cta" href="#register" onClick={() => setOpen(false)}>Зарегистрироваться бесплатно <ArrowRight aria-hidden="true" /></a>
+      <button className="fresh-popup-later" onClick={() => setOpen(false)}>Пока посмотрю программу</button>
+    </DialogContent>
+  </Dialog>;
+}
+
 type HomeProps = {
   variant?: 'full' | 'short';
   assetBase?: string;
+  theme?: 'classic' | 'sky' | 'cosmic' | 'fresh';
 };
 
-export default function Home({ variant = 'full', assetBase = './' }: HomeProps) {
+export default function Home({ variant = 'full', assetBase = './', theme = 'classic' }: HomeProps) {
   const isShort = variant === 'short';
   const asset = (name: string) => `${assetBase}${name}`;
+  const themeClass = theme === 'cosmic' ? 'theme-sky theme-cosmic' : theme === 'fresh' ? 'theme-sky theme-fresh' : theme === 'sky' ? 'theme-sky' : '';
+  const isFresh = theme === 'fresh';
+  const [offerDeadline] = useState(() => Date.now() + 180_000);
 
   return (
-    <main className={`site ${isShort ? 'site-short' : 'site-full'}`}>
+    <main className={`site ${isShort ? 'site-short' : 'site-full'} ${themeClass}`}>
+      {isFresh && !isShort && <FreshUrgencyPopup deadline={offerDeadline} />}
       <div className="hero-stage" id="top">
         <header className="topbar shell">
           <a href="#top" className="logo" aria-label="15–17 сентября, начало в 19:00">
@@ -206,10 +265,10 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
 
         <section className="hero shell">
           <div className="hero-copy">
-            <div className="pill"><span>NEW</span> ПРАКТИЧЕСКИЙ 3‑ДНЕВНЫЙ ОНЛАЙН‑КУРС</div>
+            <div className="pill">{isFresh ? <><Clock3 aria-hidden="true" /><b>3 дня</b><span>Бесплатный онлайн‑курс</span></> : <><span>NEW</span> ПРАКТИЧЕСКИЙ 3‑ДНЕВНЫЙ ОНЛАЙН‑КУРС</>}</div>
             <h1>Новая<br /><em>Эра ИИ</em></h1>
-            <p className="hero-subtitle">Создание контента, автоматизация и вайбкодинг для бизнеса и фриланса</p>
-            <p className="hero-description">За три дня попробуйте ИИ на задачах своего бизнеса: от контента до первого агента и веб‑сервиса.</p>
+            <p className="hero-subtitle">{isFresh ? <>По‑старому больше не работает.<br />Теперь ценят не знание нейросетей, а умение собирать из них работающие системы.</> : 'Создание контента, автоматизация и вайбкодинг для бизнеса и фриланса'}</p>
+            <p className="hero-description">{isFresh ? 'За три дня перейдите от отдельных сервисов к собственной системе: контент, ИИ‑агенты и веб‑продукты под задачи бизнеса.' : 'За три дня попробуйте ИИ на задачах своего бизнеса: от контента до первого агента и веб‑сервиса.'}</p>
             <div className="hero-rotator" aria-label="На курсе: фото и видео высшего качества, автономные ИИ-агенты на MyBotica и собственные веб-сервисы без кода">
               <span>Фото и ИИ‑видео высшего качества</span>
               <span>Автономные ИИ‑агенты на MyBotica</span>
@@ -217,14 +276,20 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
             </div>
             <div className="hero-action">
               <a href="#register">Занять место бесплатно <ArrowRight /></a>
-              <p><b>0 ₽</b><span>Участие<br />бесплатное</span></p>
+              {isFresh ? <div className="fresh-offer-card"><p className="fresh-price"><span>Участие в курсе</span><span className="fresh-price-old"><s>5 900 ₽</s></span><b>0 ₽</b></p><EventCountdown deadline={offerDeadline} /></div> : <p><b>0 ₽</b><span>Участие<br />бесплатное</span></p>}
             </div>
+            {isFresh && <div className="fresh-hero-film" aria-hidden="true">
+              <video autoPlay muted loop playsInline preload="auto" poster={asset('ksenia-earth-seamless-v3.jpg')} disablePictureInPicture>
+                <source src={asset('ksenia-earth-seamless-v4.webm')} type="video/webm" />
+                <source src={asset('ksenia-earth-seamless-v4.mp4')} type="video/mp4" />
+              </video>
+            </div>}
             <div className="hero-proof">
               <span><b>15–17.09</b><small>каждый день в 19:00</small></span>
               <span><b>9 работ</b><small>в вашем портфолио</small></span>
               <span><b>Практика</b><small>на ваших задачах</small></span>
             </div>
-            {!isShort && <a className="gift-teaser" href="#gift"><Gift /><span><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>Персональный тест «Ваш ИИ‑архетип»</b></span><ArrowRight /></a>}
+            {!isShort && <a className="gift-teaser" href={isFresh ? '#fresh-gift' : '#gift'}><Gift /><span><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>{isFresh ? 'Персональная карта: ваш ИИ‑архетип, стек и первый маршрут' : 'Персональный тест «Ваш ИИ‑архетип»'}</b></span><ArrowRight /></a>}
           </div>
 
           <div className="hero-visual">
@@ -235,16 +300,39 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
         </section>
       </div>
 
-      <section className="authority shell" aria-label="Достижения Ксении Барановой">
-        <article><b>400 000+</b><span>учеников прошли<br />программы школы</span></article>
-        <article><b>Госдума РФ</b><span>приглашённый эксперт<br />по искусственному интеллекту</span></article>
-        <article><b>GetAward 2026</b><span>победитель в номинации<br />«Обучение года»</span></article>
-        <article><b>Лицензия</b><span>образовательная школа<br />с официальной лицензией</span></article>
-      </section>
+      {isFresh && !isShort && <section className="fresh-gift-reveal" id="fresh-gift">
+        <div className="shell fresh-gift-wrap">
+          <div className="fresh-gift-copy">
+            <small>ПОДАРОК СРАЗУ ПОСЛЕ РЕГИСТРАЦИИ</small>
+            <h2>Не просто тест.<br /><em>Ваша личная карта роста с ИИ.</em></h2>
+            <p>За несколько минут вы увидите, где ИИ усилит именно вас — без случайного набора сервисов и чужих сценариев.</p>
+            <div className="fresh-gift-points">
+              <article><span>01</span><div><b>Ваш ИИ‑архетип</b><p>Сильная роль и естественный стиль работы с технологиями.</p></div></article>
+              <article><span>02</span><div><b>Персональный стек</b><p>Нейросети, которые дадут максимум результата под ваши задачи.</p></div></article>
+              <article><span>03</span><div><b>Первый маршрут</b><p>Что делегировать ИИ сначала, чтобы быстрее освободить время и вырасти.</p></div></article>
+            </div>
+            <a href="#register">Получить карту бесплатно <ArrowRight /></a>
+          </div>
+          <div className="fresh-result-card" aria-label="Пример персонального результата теста">
+            <div className="fresh-result-top"><span className="fresh-window-dots" aria-hidden="true"><i /><i /><i /></span><span>ВАШ ПЕРСОНАЛЬНЫЙ РЕЗУЛЬТАТ</span><b>02 / 04</b></div>
+            <small>ОТЧЁТ ОБ ИИ‑АРХЕТИПЕ</small>
+            <h3>Креатор‑<br /><em>визионер</em></h3>
+            <p>Вы мыслите образами, эмоциями и визуалом. Ваша сила — зацепить внимание с первых секунд.</p>
+            <div className="fresh-result-superpower"><small>ВАША СУПЕРСИЛА</small><b>Креативность<br />и чувство стиля</b></div>
+            <div className="fresh-result-columns">
+              <div className="fresh-result-stack"><small>ИДЕАЛЬНЫЙ СТЕК</small><span>Midjourney</span><span>Flux</span><span>Kling</span><span>Runway</span></div>
+              <div className="fresh-result-delegate"><small>ДЕЛЕГИРОВАТЬ СНАЧАЛА</small><p>Фотосессии, монтаж, цифровые аватары и рекламные креативы.</p></div>
+            </div>
+            <div className="fresh-result-ready"><Check /> Персональный маршрут готов</div>
+          </div>
+        </div>
+      </section>}
+
+      {!isFresh && <SchoolAuthority />}
 
       <section className="register shell" id="register">
         <div className="register-copy"><small>БЕСПЛАТНЫЙ ПРАКТИКУМ</small><h2>Примените ИИ<br />к своей задаче</h2><p>Приходите с идеей или рабочим проектом. На эфирах разберём, как ускорить контент и собрать первых ИИ‑помощников.{!isShort && ' После регистрации получите тест «Ваш ИИ‑архетип».'}</p></div>
-        <RegistrationWidget />
+        <RegistrationWidget deadline={isFresh ? offerDeadline : undefined} />
       </section>
 
       <section className="section shell practice-section">
@@ -264,14 +352,14 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
 
       <section className="passport-band" id="passport">
         <div className="shell passport-wrap">
-          <div className="passport-copy"><small>ОФИЦИАЛЬНОЕ ПОДТВЕРЖДЕНИЕ</small><h2>Именной<br /><em>нейропаспорт</em></h2><p>Документ от лицензированной образовательной школы для портфолио и подтверждения продвинутого уровня.</p></div>
+          <div className="passport-copy"><small>ОФИЦИАЛЬНОЕ ПОДТВЕРЖДЕНИЕ</small><h2>Ваш цифровой<br /><em>ИИ ID</em></h2><p>Именной документ школы подтверждает прохождение трёхдневного курса и выполненные задания.</p><ul className="passport-requirements"><li><Check />Быть на всех трёх днях</li><li><Check />Выполнить домашние задания</li></ul></div>
           <div className="passport-card">
-            <div className="passport-head"><Sparkles /><span>NEURO PASSPORT</span><small>ADVANCED · 2026</small></div>
-            <div className="passport-portrait"><img src={asset('ksenia-red.webp')} loading="lazy" decoding="async" alt="Пример фотографии в нейропаспорте" /></div>
+            <div className="passport-head"><Sparkles /><span>НОВАЯ ЭРА · ИИ ID</span><small>УЧАСТНИК · 2026</small></div>
+            <div className={`passport-portrait${isFresh ? ' passport-portrait-white' : ''}`}><img src={asset(isFresh ? 'ksenia-white-id.png' : 'ksenia-red.webp')} loading="lazy" decoding="async" alt="Пример фотографии в цифровом ИИ ID" /></div>
             <div className="passport-identity"><small>ИМЕННОЙ ЦИФРОВОЙ ДОКУМЕНТ</small><strong>КСЕНИЯ<br />БАРАНОВА</strong><span>ИИ‑КРЕАТОР · СОЗДАТЕЛЬ АГЕНТОВ</span></div>
-            <div className="passport-holo"><span>ИИ</span></div>
+            <div className="passport-holo"><span>ID</span></div>
             <div className="passport-serial">ID · KB 0009 / 2026</div>
-            <div className="passport-foot"><span>9 ПРАКТИЧЕСКИХ РАБОТ</span><b><ShieldCheck /> VERIFIED</b></div>
+            <div className="passport-foot"><span>3 ДНЯ · ДОМАШНИЕ ЗАДАНИЯ</span><b><ShieldCheck /> VERIFIED</b></div>
           </div>
           <div className="portfolio-badge"><b>9</b><span>готовых работ<br />под реальные проекты</span></div>
         </div>
@@ -398,6 +486,8 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
           </div>
         </div>
       </section>}
+
+      {isFresh && <SchoolAuthority />}
 
       <footer className="site-footer" id="footer">
         <div className="shell footer-main">
