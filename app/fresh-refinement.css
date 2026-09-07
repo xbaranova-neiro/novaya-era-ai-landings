@@ -83,6 +83,8 @@
 /* Quiet price caption below the CTA, without another competing card. */
 .theme-fresh .fresh-gift-wrap{grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);align-items:center}
 .theme-fresh .fresh-gift-copy>p{margin:18px 0;max-width:720px}
+.theme-fresh .fresh-gift-copy h2,.theme-fresh .fresh-result-example h3{text-wrap:balance;word-break:normal;overflow-wrap:normal;hyphens:none}
+.theme-fresh .fresh-gift-copy>p,.theme-fresh .fresh-result-example p{text-wrap:pretty}
 .theme-fresh .fresh-gift-copy .fresh-gift-summary{font-weight:650;color:#253e53;margin-bottom:24px}
 .theme-fresh .fresh-result-example{width:100%;max-width:410px;justify-self:end;padding:24px}
 .theme-fresh .fresh-result-example h3{font-size:38px}
