@@ -21,6 +21,7 @@ export default defineConfig({
       input: {
         main: path.join(rootDir, 'github/index.html'),
         short: path.join(rootDir, 'github/short/index.html'),
+        pro: path.join(rootDir, 'github/pro/index.html'),
       },
     },
   },

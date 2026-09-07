@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Award,
@@ -21,7 +21,14 @@ import {
   Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const practice = [
   {
@@ -41,7 +48,7 @@ const practice = [
   {
     icon: Film,
     number: '03',
-    title: 'Продающий визуал и AI‑видео',
+    title: 'Продающий визуал и ИИ‑видео',
     text: 'Единые нейрофотосессии, карусели для соцсетей и сложные ролики с цифровыми аватарами без съёмочной группы.',
     tone: 'violet',
   },
@@ -66,7 +73,7 @@ const format = [
 const days = [
   {
     day: '01',
-    title: 'Фундамент ИИ‑элиты, продвинутый промптинг и ИИ‑агенты',
+    title: 'Фундамент Новой Эры ИИ, продвинутый промптинг и ИИ‑агенты',
     items: [
       'Экосистема передовых нейросетей и промпты уровня Top‑2% специалистов.',
       'Персональный ИИ‑агент в MyBotica: мониторинг конкурентов и сбор вирусных инфоповодов.',
@@ -77,7 +84,7 @@ const days = [
   },
   {
     day: '02',
-    title: 'Визуал, киношное AI‑видео и вайбкодинг',
+    title: 'Визуал, киношное ИИ‑видео и вайбкодинг',
     items: [
       'Сложносоставные ролики и цифровые аватары: сценарий, раскадровка, анимация и динамика.',
       'Собственные аналоги Trello, Canva и трекеров задач без программистов за 15 минут.',
@@ -99,31 +106,69 @@ const days = [
 ];
 
 const outcomes = [
-  ['НАВЫКИ ИИ‑ЭЛИТЫ', 'Вайбкодинг, автономные ИИ‑агенты на MyBotica и медиаконтент премиум‑уровня.'],
+  ['НАВЫКИ НОВОЙ ЭРЫ ИИ', 'Вайбкодинг, автономные ИИ‑агенты на MyBotica и медиаконтент премиум‑уровня.'],
   ['СВОБОДНОЕ ВРЕМЯ', 'До 80% рутины можно делегировать умным нейропомощникам.'],
   ['ПОРТФЕЛЬ ПРОЕКТОВ', 'Своя база инструментов: от нейрофотосессий до веб‑приложений.'],
   ['ОФИЦИАЛЬНЫЙ НЕЙРОПАСПОРТ', 'Документ от школы с лицензией Минобрнауки РФ.'],
   ['ЭКОНОМИЯ И РОСТ ДОХОДА', 'Замена подписок своими разработками и план выхода на чек от 100 000 ₽.'],
 ];
 
-function RegisterForm() {
-  const [sent, setSent] = useState(false);
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSent(true);
-  };
-
-  if (sent) {
-    return <div className="form-success" role="status" aria-live="polite"><span><Check /></span><div><b>Место за вами</b><p>Приглашение скоро придёт на почту</p></div></div>;
-  }
+function RegistrationWidget() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+  const submitted = useRef(false);
 
   return (
-    <form onSubmit={submit}>
-      <label><span>Ваше имя</span><Input name="name" autoComplete="name" required placeholder="Ксения" /></label>
-      <label><span>Email</span><Input name="email" type="email" autoComplete="email" spellCheck={false} required placeholder="you@example.com" /></label>
-      <Button type="submit">Занять место бесплатно <ArrowRight /></Button>
-      <small>Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
-    </form>
+    <Dialog>
+      <div className="registration-entry registration-entry-teaser">
+        <div className="registration-entry-top"><span>Бесплатное участие</span><b>0 ₽</b></div>
+        <h3>Забронируйте место<br />на практикуме</h3>
+        <ul><li><Check />15–17 сентября, каждый день в 19:00</li><li><Check />Три дня живой практики</li><li><Check />Приглашение сразу после регистрации</li></ul>
+        <DialogTrigger render={<Button className="registration-cta" />}>
+          Зарегистрироваться бесплатно <ArrowRight />
+        </DialogTrigger>
+        <small><ShieldCheck /> Официальная регистрация школы · данные защищены</small>
+      </div>
+      <DialogContent className="registration-modal registration-modal-custom">
+        <DialogHeader className="registration-modal-head">
+          <DialogTitle>Регистрация на «Новую Эру ИИ»</DialogTitle>
+          <DialogDescription>15–17 сентября · каждый день в 19:00 · участие бесплатно</DialogDescription>
+        </DialogHeader>
+        <div className="registration-modal-body">
+          {status === 'success' ? (
+            <div className="registration-success" role="status">
+              <span><Check /></span>
+              <div><h3>Вы зарегистрированы</h3><p>Проверьте почту — приглашение и программа уже в пути.</p></div>
+            </div>
+          ) : (
+            <form
+              className="registration-form"
+              action="https://neyroseti.neiroguru.ru/pl/lite/block-public/process?id=2249731039"
+              method="post"
+              target="registration-result"
+              onSubmit={() => { submitted.current = true; setStatus('sending'); }}
+            >
+              <input type="hidden" name="formParams[willCreatePaidDeal]" value="0" />
+              <input type="hidden" name="formParams[in_widget]" value="1" />
+              <input type="hidden" name="__gc__internal__form__helper" value="https://neyroseti.neiroguru.ru/pl/lite/widget/widget?id=1652829" />
+              <div className="registration-fields">
+                <label><span>Ваше имя</span><input required autoComplete="name" name="formParams[full_name]" placeholder="Как к вам обращаться" /></label>
+                <label><span>Телефон</span><input required autoComplete="tel" inputMode="tel" name="formParams[phone]" placeholder="+7 999 888-55-44" /></label>
+                <label className="registration-email"><span>E-mail</span><input required type="email" autoComplete="email" name="formParams[email]" placeholder="mail@example.ru" /></label>
+              </div>
+              <div className="registration-consents">
+                <label><input required type="checkbox" name="consent_personal" /><i><Check /></i><span>Я согласен на обработку персональных данных и ознакомлен с <a href="https://xeniabaranova-school.ru/politica" target="_blank" rel="noreferrer">Политикой обработки данных</a>.</span></label>
+                <label><input type="checkbox" name="consent_mailing" /><i><Check /></i><span>Даю согласие на получение информационных и маркетинговых рассылок. Отказаться можно в любой момент.</span></label>
+              </div>
+              <button className="registration-cta" type="submit" disabled={status === 'sending'}>
+                {status === 'sending' ? 'Отправляем…' : 'Зарегистрироваться бесплатно'} <ArrowRight />
+              </button>
+            </form>
+          )}
+          <iframe className="registration-result-frame" title="Результат регистрации" name="registration-result" onLoad={() => { if (submitted.current) setStatus('success'); }} />
+          {status !== 'success' && <small className="registration-security"><ShieldCheck /> Данные передаются напрямую в защищённую систему школы.</small>}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -183,11 +228,11 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
         <section className="hero shell">
           <div className="hero-copy">
             <div className="pill"><span>NEW</span> ПРАКТИЧЕСКИЙ 3‑ДНЕВНЫЙ ОНЛАЙН‑КУРС</div>
-            <h1>Погружение<br />в <em>ИИ‑элиту</em></h1>
+            <h1>Новая<br /><em>Эра ИИ</em></h1>
             <p className="hero-subtitle">Создание контента, автоматизация и вайбкодинг для бизнеса и фриланса</p>
             <p className="hero-description"><strong>Освойте технологии, о которых 98% ИИ‑рынка ещё не знают.</strong></p>
             <div className="hero-rotator" aria-label="На курсе: фото и видео высшего качества, автономные ИИ-агенты на MyBotica и собственные веб-сервисы без кода">
-              <span>Фото и AI‑видео высшего качества</span>
+              <span>Фото и ИИ‑видео высшего качества</span>
               <span>Автономные ИИ‑агенты на MyBotica</span>
               <span>Собственный веб‑сервис без кода</span>
             </div>
@@ -204,7 +249,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
           </div>
 
           <div className="hero-visual">
-            <div className="visual-field"><b>AI</b><span>BUSINESS<br />CONTENT<br />CODE</span></div>
+            <div className="visual-field"><b>ИИ</b><span>БИЗНЕС<br />КОНТЕНТ<br />КОД</span></div>
             <img className="hero-person-image" src={asset('ksenia-red.webp')} width="1751" height="2400" fetchPriority="high" decoding="async" alt="Ксения Баранова — автор курса" />
             <div className="author-tag"><small>АВТОР КУРСА</small><b>Ксения Баранова</b><span>16 лет в образовании<br />400 000+ учеников</span></div>
           </div>
@@ -219,8 +264,8 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
       </section>
 
       <section className="register shell" id="register">
-        <div className="register-copy"><small>15–17 СЕНТЯБРЯ · 19:00 · УЧАСТИЕ БЕСПЛАТНОЕ</small><h2>Закрепите место<br />на онлайн‑курсе</h2><p>Сразу после регистрации пришлём приглашение и программу{isShort ? '.' : ' и подарок.'}</p></div>
-        <RegisterForm />
+        <div className="register-copy"><small>15–17 СЕНТЯБРЯ · 19:00 · УЧАСТИЕ БЕСПЛАТНОЕ</small><h2>Закрепите место<br />на онлайн‑курсе</h2><p>Одна регистрация — и вы внутри. Сразу пришлём приглашение и программу{isShort ? '.' : ' и подарок.'}</p></div>
+        <RegistrationWidget />
       </section>
 
       <section className="section shell practice-section">
@@ -244,8 +289,8 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
           <div className="passport-card">
             <div className="passport-head"><Sparkles /><span>NEURO PASSPORT</span><small>ADVANCED · 2026</small></div>
             <div className="passport-portrait"><img src={asset('ksenia-red.webp')} loading="lazy" decoding="async" alt="Пример фотографии в нейропаспорте" /></div>
-            <div className="passport-identity"><small>ИМЕННОЙ ЦИФРОВОЙ ДОКУМЕНТ</small><strong>КСЕНИЯ<br />БАРАНОВА</strong><span>AI CREATOR · AGENT BUILDER</span></div>
-            <div className="passport-holo"><span>AI</span></div>
+            <div className="passport-identity"><small>ИМЕННОЙ ЦИФРОВОЙ ДОКУМЕНТ</small><strong>КСЕНИЯ<br />БАРАНОВА</strong><span>ИИ‑КРЕАТОР · СОЗДАТЕЛЬ АГЕНТОВ</span></div>
+            <div className="passport-holo"><span>ИИ</span></div>
             <div className="passport-serial">ID · KB 0009 / 2026</div>
             <div className="passport-foot"><span>9 ПРАКТИЧЕСКИХ РАБОТ</span><b><ShieldCheck /> VERIFIED</b></div>
           </div>
@@ -310,7 +355,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
         </header>
         <div className="portfolio-preview">
           <article className="portfolio-agent">
-            <div className="artifact-head"><span>01</span><b>MYBOTICA · AI AGENT</b></div>
+            <div className="artifact-head"><span>01</span><b>MYBOTICA · ИИ‑АГЕНТ</b></div>
             <Bot />
             <h3>Автономный ИИ‑агент<br />на MyBotica</h3>
             <p>Созданный на платформе MyBotica агент мониторит рынок, собирает инфоповоды и готовит материалы 24/7 — без программирования.</p>
@@ -320,12 +365,12 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
             </div>
           </article>
           <article className="portfolio-media">
-            <div className="artifact-head"><span>02</span><b>AI MEDIA · ГОТОВЫЕ РАБОТЫ</b></div>
+            <div className="artifact-head"><span>02</span><b>ИИ‑МЕДИА · ГОТОВЫЕ РАБОТЫ</b></div>
             <div className="video-showcase">
-              <figure><AutoLoopVideo src={asset('ai-video-01.mp4')} poster={asset('ai-video-01-poster.jpg')} label="Пример рекламной AI-истории" /><figcaption>AI STORY · LOOP</figcaption></figure>
+              <figure><AutoLoopVideo src={asset('ai-video-01.mp4')} poster={asset('ai-video-01-poster.jpg')} label="Пример рекламной ИИ-истории" /><figcaption>ИИ‑ИСТОРИЯ · ЦИКЛ</figcaption></figure>
               <figure><AutoLoopVideo src={asset('ai-video-02.mp4')} poster={asset('ai-video-02-poster.jpg')} label="Пример видео с цифровым аватаром" /><figcaption>DIGITAL AVATAR · LOOP</figcaption></figure>
             </div>
-            <h3>AI‑видео: от идеи до готового ролика</h3><p>Сценарий, визуальный стиль, генерация сцен, цифровые аватары и финальный монтаж — без съёмочной группы.</p>
+            <h3>ИИ‑видео: от идеи до готового ролика</h3><p>Сценарий, визуальный стиль, генерация сцен, цифровые аватары и финальный монтаж — без съёмочной группы.</p>
           </article>
           <article className="portfolio-app"><div className="artifact-head"><span>03</span><b>VIBE CODE</b></div><div className="app-window"><i /><i /><i /><span>Ваш веб‑сервис</span></div><Code2 /><h3>Собственное приложение</h3><p>Рабочий сервис под вашу задачу — собранный через промпты без программиста.</p></article>
         </div>
@@ -358,7 +403,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
             <div className="result-browser-bar"><i /><i /><i /><span>Ваш персональный результат</span></div>
             <div className="result-report">
               <div className="result-report-head">
-                <span>AI ARCHETYPE REPORT</span>
+                <span>ОТЧЁТ ОБ ИИ‑АРХЕТИПЕ</span>
                 <b>02 / 04</b>
               </div>
               <div className="result-emblem"><Sparkles /><small>ВАШ ИИ‑АРХЕТИП</small></div>
@@ -366,7 +411,7 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
               <p className="result-intro">Вы мыслите образами, эмоциями и визуалом. Ваша сила — зацепить внимание с первых секунд.</p>
               <div className="result-strength"><small>ВАША СУПЕРСИЛА</small><strong>Креативность<br />и чувство стиля</strong></div>
               <div className="result-details">
-                <article><small>ИДЕАЛЬНЫЙ СТЕК</small><div className="result-chips"><span>Midjourney</span><span>Flux</span><span>Kling AI</span><span>Runway</span></div></article>
+                <article><small>ИДЕАЛЬНЫЙ СТЕК</small><div className="result-chips"><span>Midjourney</span><span>Flux</span><span>Kling</span><span>Runway</span></div></article>
                 <article><small>ДЕЛЕГИРОВАТЬ СНАЧАЛА</small><p>Фотосессии, монтаж, цифровые аватары и рекламные креативы.</p></article>
               </div>
               <div className="result-stamp"><Check /><span>ПЕРСОНАЛЬНЫЙ<br />МАРШРУТ ГОТОВ</span></div>
@@ -379,14 +424,14 @@ export default function Home({ variant = 'full', assetBase = './' }: HomeProps) 
         <div className="shell footer-main">
           <div className="footer-brand">
             <a href="#top" className="footer-name">Ксения Баранова</a>
-            <strong>Школа ИИ‑технологий</strong>
+            <strong>Новая Эра ИИ</strong>
             <p>Практический трёхдневный онлайн‑курс по ИИ: контент, автономные агенты, автоматизация и собственные веб‑сервисы без кода.</p>
             <a className="footer-email" href="mailto:hello@xeniabaranova-school.ru">hello@xeniabaranova-school.ru</a>
           </div>
 
           <div className="footer-action">
             <small>ЗАНЯТЬ МЕСТО НА ОНЛАЙН‑КУРСЕ</small>
-            <h3>Войдите в ИИ‑элиту<br />за три практических дня</h3>
+            <h3>Войдите в Новую Эру ИИ<br />за три практических дня</h3>
             <a href="#register">Занять место бесплатно <ArrowRight /></a>
             <nav>
               <a href="https://xeniabaranova-school.ru/politica" target="_blank" rel="noreferrer">Политика обработки данных</a>
