@@ -319,24 +319,24 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
       {isFresh && !isShort && <section className="fresh-gift-reveal" id="fresh-gift">
         <div className="shell fresh-gift-wrap">
           <div className="fresh-gift-copy">
-            <small>ПОДАРОК СРАЗУ ПОСЛЕ РЕГИСТРАЦИИ</small>
-            <h2>Узнайте, <em>как ИИ поможет именно вам</em></h2>
-            <p>После регистрации вы перейдёте в бот. Ответьте на <strong>4 вопроса</strong> — и получите свой план работы с ИИ.</p>
-            <p>Вы узнаете свои сильные стороны, какие нейросети вам подойдут и какие повседневные задачи можно поручить им в первую очередь.</p>
-            <p className="fresh-gift-summary">Понятный план: с чего начать и что попробовать дальше.</p>
+            <small>МГНОВЕННЫЙ БОНУС ЗА РЕГИСТРАЦИЮ</small>
+            <h2>Получите индивидуальный <em>ИИ-профиль и карту развития</em></h2>
+            <p>Сразу после регистрации вы попадете в бот, где сможете пройти быстрый тест.</p>
+            <p>Всего за <strong>4 вопроса</strong> система определит ваши сильные стороны, покажет ваш идеальный набор нейросетей (от Midjourney и Kling до Cursor и Claude) и подскажет, какие повседневные задачи поручить искусственному интеллекту в первую очередь.</p>
+            <p className="fresh-gift-summary">Получите персональный маршрут под свой склад ума и задачи!</p>
             <a href="#register">Получить карту бесплатно <ArrowRight /></a>
           </div>
           <div className="fresh-result-card fresh-result-example" aria-label="Пример персонального результата теста">
-            <div className="fresh-result-top"><span className="fresh-window-dots" aria-hidden="true"><i /><i /><i /></span><span>ПРИМЕР РЕЗУЛЬТАТА</span><b>02 / 04</b></div>
-            <small>ВАША СИЛЬНАЯ СТОРОНА</small>
-            <h3>Творческий <em>подход</em></h3>
-            <p>Вы придумываете яркие идеи и умеете привлекать внимание с первых секунд.</p>
-            <div className="fresh-result-superpower"><small>ЧТО У ВАС ПОЛУЧАЕТСЯ</small><b>Находить идеи и красиво их оформлять</b></div>
+            <div className="fresh-result-top"><span className="fresh-window-dots" aria-hidden="true"><i /><i /><i /></span><span>ПРИМЕР ИИ-ПРОФИЛЯ</span><b>02 / 04</b></div>
+            <small>ОТЧЁТ ОБ ИИ‑АРХЕТИПЕ</small>
+            <h3>Креатор‑<br /><em>визионер</em></h3>
+            <p>Вы мыслите образами, эмоциями и визуалом. Ваша сила — зацепить внимание с первых секунд.</p>
+            <div className="fresh-result-superpower"><small>ВАША СУПЕРСИЛА</small><b>Креативность<br />и чувство стиля</b></div>
             <div className="fresh-result-columns">
-              <div className="fresh-result-stack"><small>ВАМ ПОДОЙДУТ</small><span>Midjourney</span><span>Flux</span><span>Kling</span><span>Runway</span></div>
-              <div className="fresh-result-delegate"><small>ЧТО ПОРУЧИТЬ ИИ</small><p>Создание фото, монтаж видео и картинки для рекламы.</p></div>
+              <div className="fresh-result-stack"><small>ВАШИ НЕЙРОСЕТИ</small><span>Midjourney</span><span>Flux</span><span>Kling</span><span>Runway</span></div>
+              <div className="fresh-result-delegate"><small>ЧТО ПОРУЧИТЬ ИИ СНАЧАЛА</small><p>Фотосессии, монтаж, цифровые аватары и рекламные креативы.</p></div>
             </div>
-            <div className="fresh-result-ready"><Check /> Ваш план готов</div>
+            <div className="fresh-result-ready"><Check /> Персональный маршрут готов</div>
           </div>
         </div>
       </section>}
