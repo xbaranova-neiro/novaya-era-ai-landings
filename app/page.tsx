@@ -275,7 +275,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
       <div className="hero-stage" id="top">
         <header className="topbar shell">
           <a href="#top" className="logo" aria-label="15–17 сентября, начало в 19:00">
-            <span className="date-mark"><em>15–17</em><i>СЕН · 19:00</i></span>
+            {isFresh ? <span className="date-mark date-mark-inline">15–17 сентября <i>· 19:00</i></span> : <span className="date-mark"><em>15–17</em><i>СЕН · 19:00</i></span>}
           </a>
           <div className="top-facts">
               <span><b>15–17 СЕНТЯБРЯ</b>каждый день в 19:00</span>
