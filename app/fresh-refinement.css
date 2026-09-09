@@ -56,6 +56,7 @@
 .theme-fresh .fresh-result-ready{font:650 14px var(--font-body);text-transform:none}
 .theme-fresh .fresh-gift-wrap{gap:56px}
 .theme-fresh .fresh-gift-points b{font-family:var(--font-body);font-weight:750}
+.theme-fresh .program-safety-note{border:1px solid rgba(173,119,33,.2);background:linear-gradient(115deg,rgba(255,249,232,.92),rgba(255,255,255,.62));box-shadow:var(--fresh-shadow);color:#284157}.theme-fresh .program-safety-note>span{background:linear-gradient(145deg,#ffe5a6,#d49a3d);color:#704504}.theme-fresh .program-safety-note small{color:#9a6b25;font-family:var(--font-body);font-weight:750}.theme-fresh .program-safety-note h3{font-family:var(--font-body);font-weight:750;letter-spacing:-.02em}.theme-fresh .program-safety-note p{color:#526574}
 .theme-fresh .section,.theme-fresh .fresh-gift-reveal,.theme-fresh .passport-band,.theme-fresh .program-section{padding-block:80px;min-height:0}
 @media(max-width:1080px) and (min-width:721px){.theme-fresh .hero-copy{width:66%}.theme-fresh .hero h1{font-size:78px}.theme-fresh .fresh-hero-film:after{background:linear-gradient(90deg,#f5fafc,rgba(245,250,252,.95) 42%,rgba(245,250,252,.3) 74%,transparent)}}
 @media(max-width:720px){

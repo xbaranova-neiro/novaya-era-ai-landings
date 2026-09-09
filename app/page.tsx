@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Award,
@@ -62,7 +62,7 @@ const practice = [
 ];
 
 const format = [
-  { icon: Clock3, title: '3 живых практических дня', text: 'Реальные демонстрации, разборы кейсов и работа с передовыми нейросетями.', wide: true },
+  { icon: Clock3, title: '2 живых практических дня', text: 'Реальные демонстрации, разборы кейсов и работа с передовыми нейросетями.', wide: true },
   { icon: Award, title: 'Домашние задания с проверкой кураторов', text: 'Практика после каждого эфира, персональная обратная связь и готовые рабочие решения.' },
   { icon: Bot, title: 'Доступ к MyBotica', text: 'Авторская ИИ‑платформа и приветственные токены.' },
   { icon: Layers3, title: 'Библиотека промптов', text: 'Проверенные формулы и алгоритмы точных запросов.' },
@@ -73,35 +73,25 @@ const format = [
 const days = [
   {
     day: '01',
-    title: 'Фундамент Новой Эры ИИ, продвинутый промптинг и ИИ‑агенты',
+    title: '16 сентября — Собираем свою ИИ‑систему',
     items: [
-      'Выбор нейросети под задачу и структура точного запроса с контекстом и примерами.',
-      'Персональный ИИ‑агент в MyBotica: мониторинг конкурентов и сбор вирусных инфоповодов.',
-      'Маркетинговый анализ, упаковка смыслов и продающие карусели для соцсетей.',
-      'Выбор повторяющихся задач, которые можно передать ИИ, и проверка результата.',
+      'Находим сильные смыслы и создаём на их основе тексты, визуал и продающие материалы.',
+      'Собираем помощника в MyBotica, который анализирует рынок и помогает готовить контент.',
+      'Создаём без программирования первый полезный веб‑сервис под свою задачу.',
+      'Соединяем контент, помощника и сервис в одну рабочую систему.',
     ],
-    result: 'Рабочее пространство, ИИ‑агент для аналитики рынка и маркетинговая система под ваш проект.',
+    result: 'Готовая система для создания контента, работающий ИИ‑помощник и первая версия собственного сервиса.',
   },
   {
     day: '02',
-    title: 'Визуал, киношное ИИ‑видео и вайбкодинг',
+    title: '17 сентября — Улучшаем и доводим до результата',
     items: [
-      'Сложносоставные ролики и цифровые аватары: сценарий, раскадровка, анимация и динамика.',
-      'Прототип собственного трекера задач или веб‑сервиса: от описания до первой версии.',
-      'Замена платных зарубежных сервисов собственными разработками.',
+      'Создаём киношное видео, цифрового аватара и рекламные материалы.',
+      'Настраиваем ИИ‑помощника на повторяющиеся задачи.',
+      'Добавляем в веб‑сервис нужные функции и доводим его до готового продукта.',
+      'Упаковываем результат для своего бизнеса, портфолио или продажи клиентам.',
     ],
-    result: 'Серия рекламных фото, ролик с аватаром и собственный рабочий веб‑сервис.',
-  },
-  {
-    day: '03',
-    title: 'Факапы, юридическая безопасность и монетизация',
-    items: [
-      '10 критических ошибок, из‑за которых сливают бюджеты и теряют охваты.',
-      'Авторские права на ИИ‑контент, штрафы и правила использования в РФ.',
-      'Упаковка ИИ‑услуги: состав работ, коммерческое предложение и поиск первых клиентов.',
-      'План внедрения ИИ в ваш бизнес или клиентский проект.',
-    ],
-    result: 'Понимание юридических границ, защищённый проект и план выхода на высокий чек.',
+    result: 'Готовые материалы, настроенный ИИ‑помощник, работающий веб‑продукт и план его внедрения или продажи.',
   },
 ];
 
@@ -114,22 +104,34 @@ const outcomes = [
 ];
 
 function RegistrationWidget({ deadline }: { deadline?: number }) {
-  const [frameWidth, setFrameWidth] = useState(360);
   const [open, setOpen] = useState(false);
-  const measureFrame = useCallback((node: HTMLDivElement | null) => {
-    if (!node) return;
-    setFrameWidth(node.clientWidth);
-    const observer = new ResizeObserver(([entry]) => setFrameWidth(entry.contentRect.width));
-    observer.observe(node);
-    return () => observer.disconnect();
+  const fallbackUrl = (() => {
+    if (typeof window === 'undefined') return 'https://xeniabaranova-school.ru/pl/lite/widget/widget?id=1652829';
+    const params = new URLSearchParams(window.location.search);
+    params.set('id', '1652829');
+    params.set('ref', document.referrer);
+    params.set('loc', window.location.href);
+    return `https://xeniabaranova-school.ru/pl/lite/widget/widget?${params.toString()}`;
+  })();
+
+  useEffect(() => {
+    const openFromCta = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const link = target?.closest('a[href="#register"]');
+      if (!link) return;
+      event.preventDefault();
+      setOpen(true);
+    };
+    document.addEventListener('click', openFromCta);
+    return () => document.removeEventListener('click', openFromCta);
   }, []);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <div className="registration-entry registration-entry-teaser">
         <div className="registration-entry-top"><span>Бесплатное участие</span><b>0 ₽</b></div>
-        <h3>15–17 сентября</h3>
-        <ul><li><Check />Каждый день в 19:00</li><li><Check />Онлайн · три практических эфира</li></ul>
+        <h3>16–17 сентября</h3>
+        <ul><li><Check />Каждый день в 12:00</li><li><Check />Онлайн · два практических эфира</li></ul>
         {deadline !== undefined && <EventCountdown deadline={deadline} />}
         <DialogTrigger render={<Button className="registration-cta" />}>
           Зарегистрироваться бесплатно <ArrowRight />
@@ -139,17 +141,36 @@ function RegistrationWidget({ deadline }: { deadline?: number }) {
       <DialogContent className="registration-modal registration-modal-custom">
         <DialogHeader className="registration-modal-head">
           <DialogTitle>Регистрация на «Новую Эру ИИ»</DialogTitle>
-          <DialogDescription>15–17 сентября · каждый день в 19:00 · участие бесплатно</DialogDescription>
+          <DialogDescription>16–17 сентября · каждый день в 12:00 · участие бесплатно</DialogDescription>
         </DialogHeader>
         <div className="registration-modal-body">
-          <div ref={measureFrame} className="registration-frame-wrap">
-            <iframe className="registration-official" style={{ width: Math.max(360, frameWidth), zoom: Math.min(1, frameWidth / 360) }} title="Регистрация и согласия на участие в практикуме" src="https://neyroseti.neiroguru.ru/pl/lite/widget/widget?id=1652829" />
-          </div>
-          <a className="registration-fallback" href="https://neyroseti.neiroguru.ru/pl/lite/widget/widget?id=1652829" target="_blank" rel="noreferrer">Не загружается форма? Открыть отдельно ↗</a>
+          <GetCourseWidget />
+          <a className="registration-fallback" href={fallbackUrl} target="_blank" rel="noreferrer">Не загружается форма? Открыть отдельно ↗</a>
         </div>
       </DialogContent>
     </Dialog>
   );
+}
+
+function GetCourseWidget() {
+  const slotRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const slot = slotRef.current;
+    if (!slot || slot.dataset.widgetLoaded === 'true') return;
+    slot.dataset.widgetLoaded = 'true';
+
+    const script = document.createElement('script');
+    script.id = '71612b8b2e97fffce6755a93f9834697d09b0788';
+    script.src = 'https://xeniabaranova-school.ru/pl/lite/widget/script?id=1652829';
+    script.async = true;
+    script.addEventListener('load', () => {
+      document.dispatchEvent(new Event('StartWidget71612b8b2e97fffce6755a93f9834697d09b0788'));
+    }, { once: true });
+    slot.appendChild(script);
+  }, []);
+
+  return <div ref={slotRef} className="registration-frame-wrap registration-widget" />;
 }
 
 function AutoLoopVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
@@ -244,7 +265,7 @@ function FreshUrgencyPopup({ deadline }: { deadline: number }) {
   return <Dialog open={open} onOpenChange={setOpen}>
     <DialogContent className="fresh-urgency-popup">
       <DialogHeader className="fresh-popup-head">
-        <span className="fresh-popup-kicker">НОВАЯ ЭРА ИИ <span>3 дня · онлайн</span></span>
+        <span className="fresh-popup-kicker">НОВАЯ ЭРА ИИ <span>2 дня · онлайн</span></span>
         <DialogTitle>Ваш следующий шаг —<br /><em>вместе с ИИ.</em></DialogTitle>
         <DialogDescription>Присоединяйтесь к бесплатному курсу и начните применять ИИ к своим задачам.</DialogDescription>
       </DialogHeader>
@@ -274,11 +295,11 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
       {isFresh && !isShort && <FreshUrgencyPopup deadline={offerDeadline} />}
       <div className="hero-stage" id="top">
         <header className="topbar shell">
-          <a href="#top" className="logo" aria-label="15–17 сентября, начало в 19:00">
-            {isFresh ? <span className="date-mark date-mark-inline">15–17 сентября <i>· 19:00</i></span> : <span className="date-mark"><em>15–17</em><i>СЕН · 19:00</i></span>}
+          <a href="#top" className="logo" aria-label="16–17 сентября, начало в 12:00">
+            {isFresh ? <span className="date-mark date-mark-inline">16–17 сентября <i>· 12:00</i></span> : <span className="date-mark"><em>16–17</em><i>СЕН · 12:00</i></span>}
           </a>
           <div className="top-facts">
-              <span><b>15–17 СЕНТЯБРЯ</b>каждый день в 19:00</span>
+              <span><b>16–17 СЕНТЯБРЯ</b>каждый день в 12:00</span>
             <span><b>ONLINE</b>из любой точки</span>
             <a href="#register">Занять место <ArrowRight /></a>
           </div>
@@ -286,10 +307,10 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
 
         <section className="hero shell">
           <div className="hero-copy">
-            <div className="pill">{isFresh ? <><Clock3 aria-hidden="true" /><b>3 дня</b><span>Бесплатный онлайн‑курс</span></> : <><span>NEW</span> ПРАКТИЧЕСКИЙ 3‑ДНЕВНЫЙ ОНЛАЙН‑КУРС</>}</div>
+            <div className="pill">{isFresh ? <><Clock3 aria-hidden="true" /><b>2 дня</b><span>Бесплатный онлайн‑курс</span></> : <><span>NEW</span> ПРАКТИЧЕСКИЙ 2‑ДНЕВНЫЙ ОНЛАЙН‑КУРС</>}</div>
             <h1>Новая<br /><em>Эра ИИ</em></h1>
             <p className="hero-subtitle">{isFresh ? <>По‑старому больше не работает.<br />Теперь ценят не знание нейросетей, а умение собирать из них работающие системы.</> : 'Создание контента, автоматизация и вайбкодинг для бизнеса и фриланса'}</p>
-            <p className="hero-description">{isFresh ? 'За три дня перейдите от отдельных сервисов к собственной системе: контент, ИИ‑агенты и веб‑продукты под задачи бизнеса.' : 'За три дня попробуйте ИИ на задачах своего бизнеса: от контента до первого агента и веб‑сервиса.'}</p>
+            <p className="hero-description">{isFresh ? 'За два дня перейдите от отдельных сервисов к собственной системе: контент, ИИ‑агенты и веб‑продукты под задачи бизнеса.' : 'За два дня попробуйте ИИ на задачах своего бизнеса: от контента до первого агента и веб‑сервиса.'}</p>
             <div className="hero-rotator" aria-label="На курсе: фото и видео высшего качества, автономные ИИ-агенты на MyBotica и собственные веб-сервисы без кода">
               <span>Фото и ИИ‑видео высшего качества</span>
               <span>Автономные ИИ‑агенты на MyBotica</span>
@@ -301,7 +322,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
             </div>
             {isFresh && <HeroFilm asset={asset} />}
             <div className="hero-proof">
-              <span><b>15–17.09</b><small>каждый день в 19:00</small></span>
+              <span><b>16–17.09</b><small>каждый день в 12:00</small></span>
               <span><b>9 работ</b><small>в вашем портфолио</small></span>
               <span><b>Практика</b><small>на ваших задачах</small></span>
             </div>
@@ -319,7 +340,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
       {isFresh && !isShort && <section className="fresh-gift-reveal" id="fresh-gift">
         <div className="shell fresh-gift-wrap">
           <div className="fresh-gift-copy">
-            <small>МГНОВЕННЫЙ БОНУС ЗА РЕГИСТРАЦИЮ</small>
+            <small className="fresh-gift-kicker"><span aria-hidden="true"><Gift /></span>ПОДАРОК СРАЗУ ПОСЛЕ РЕГИСТРАЦИИ</small>
             <h2>Получите индивидуальный <em>ИИ-профиль и карту развития</em></h2>
             <p>Сразу после регистрации вы попадете в бот, где сможете пройти быстрый тест.</p>
             <p>Всего за <strong>4 вопроса</strong> система определит ваши сильные стороны, покажет ваш идеальный набор нейросетей (от Midjourney и Kling до Cursor и Claude) и подскажет, какие повседневные задачи поручить искусственному интеллекту в первую очередь.</p>
@@ -365,7 +386,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
 
       <section className="passport-band" id="passport">
         <div className="shell passport-wrap">
-          <div className="passport-copy"><small>ОФИЦИАЛЬНОЕ ПОДТВЕРЖДЕНИЕ</small><h2>Ваш цифровой<br /><em>ИИ ID</em></h2><p>Именной документ школы подтверждает прохождение трёхдневного курса и выполненные задания.</p><ul className="passport-requirements"><li><Check />Быть на всех трёх днях</li><li><Check />Выполнить домашние задания</li></ul></div>
+          <div className="passport-copy"><small>ОФИЦИАЛЬНОЕ ПОДТВЕРЖДЕНИЕ</small><h2>Ваш цифровой<br /><em>ИИ ID</em></h2><p>Именной документ школы подтверждает прохождение двухдневного курса и выполненные задания.</p><ul className="passport-requirements"><li><Check />Быть на обоих днях</li><li><Check />Выполнить домашние задания</li></ul></div>
           <div className="passport-card">
             <div className="passport-head"><Sparkles /><span>НОВАЯ ЭРА · ИИ ID</span><small>УЧАСТНИК · 2026</small></div>
             <div className={`passport-portrait${isFresh ? ' passport-portrait-white' : ''}`}><img src={asset(isFresh ? 'ksenia-white-id.png' : 'ksenia-red.webp')} loading="lazy" decoding="async" alt="Пример фотографии в цифровом ИИ ID" /></div>
@@ -405,8 +426,8 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
       <section className="program-section" id="program">
         <div className="shell">
           <header className="section-heading inverse">
-            <div><small>ПРОГРАММА ОБУЧЕНИЯ</small><h2>Три дня.<br /><em>Три уровня силы.</em></h2></div>
-            <p>От продвинутого промптинга до своей производственной системы и модели монетизации.</p>
+            <div><small>ПРОГРАММА ОБУЧЕНИЯ</small><h2>Два дня.<br /><em>Одна рабочая система.</em></h2></div>
+            <p>Соберите связку из контента, ИИ‑помощника и собственного веб‑сервиса.</p>
           </header>
           <div className="day-list">
             {days.map((day) => (
@@ -417,6 +438,10 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
               </article>
             ))}
           </div>
+          <aside className="program-safety-note">
+            <span aria-hidden="true"><ShieldCheck /></span>
+            <div><small>ВАЖНО В ОБА ДНЯ</small><h3>Учимся замечать и исправлять ошибки ИИ</h3><p>На каждом примере разбираем, почему нейросеть выдаёт слабый результат, как проверять её работу, защищать данные и безопасно использовать тексты, изображения и видео.</p></div>
+          </aside>
           <a href="#register" className="program-cta">Занять место на курсе <ArrowRight /></a>
         </div>
       </section>
@@ -507,7 +532,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
           <div className="footer-brand">
             <a href="#top" className="footer-name">Ксения Баранова</a>
             <strong>Новая Эра ИИ</strong>
-            <p>Практический трёхдневный онлайн‑курс по ИИ: контент, автономные агенты, автоматизация и собственные веб‑сервисы без кода.</p>
+            <p>Практический двухдневный онлайн‑курс по ИИ: контент, автономные агенты, автоматизация и собственные веб‑сервисы без кода.</p>
             <a className="footer-email" href="mailto:hello@xeniabaranova-school.ru">hello@xeniabaranova-school.ru</a>
           </div>
 
