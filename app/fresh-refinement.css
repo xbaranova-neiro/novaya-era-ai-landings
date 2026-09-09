@@ -163,8 +163,8 @@
 /* Section padding is shared across each boundary, not doubled into a blank screen. */
 .theme-fresh .section,.theme-fresh .fresh-gift-reveal,.theme-fresh .program-section,.theme-fresh .audience-section{padding-block:48px}
 .theme-fresh .register{margin-block:16px 24px;padding:36px 40px;gap:40px}
-.registration-gift-note{display:flex;align-items:center;gap:9px;margin:-8px 0 18px;color:#f3d188;font-size:13px;line-height:1.45}
-.registration-gift-note svg{width:17px;height:17px;flex:0 0 auto;color:var(--acid)}
+.registration-gift-note{display:flex;align-items:center;gap:10px;margin:-4px 0 18px;padding:12px 14px;border:1px solid rgba(46,116,212,.16);border-radius:14px;background:rgba(231,242,255,.82);color:#235ea9;font-size:14px;font-weight:650;line-height:1.45}
+.registration-gift-note svg{width:19px;height:19px;flex:0 0 auto;color:#2462db}
 
 .short-gifts-section{padding:72px 0;background:radial-gradient(circle at 88% 10%,rgba(92,178,255,.23),transparent 28%),linear-gradient(145deg,#edf7ff,#fffaf0)}
 .short-gifts-wrap{display:grid;gap:34px}

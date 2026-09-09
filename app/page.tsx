@@ -455,11 +455,6 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
 
       {!isFresh && <SchoolAuthority />}
 
-      <section className="register shell" id="register">
-        <div className="register-copy"><small>БЕСПЛАТНЫЙ ПРАКТИКУМ</small><h2>Примените ИИ<br />к своей задаче</h2><p>Приходите с идеей или рабочим проектом. На эфирах разберём, как ускорить контент и собрать первых ИИ‑помощников.{!isShort && ' После регистрации получите тест «Ваш ИИ‑архетип».'}</p></div>
-        <RegistrationWidget deadline={isFresh ? offerDeadline : undefined} giftChoice={isShort} />
-      </section>
-
       {isShort && <section className="short-gifts-section" id="registration-gifts">
         <div className="shell short-gifts-wrap">
           <header className="short-gifts-head">
@@ -479,6 +474,11 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
           <p className="short-gifts-note"><Check /> Один подарок на выбор · бесплатно сразу после регистрации</p>
         </div>
       </section>}
+
+      <section className="register shell" id="register">
+        <div className="register-copy"><small>БЕСПЛАТНЫЙ ПРАКТИКУМ</small><h2>Примените ИИ<br />к своей задаче</h2><p>Приходите с идеей или рабочим проектом. На эфирах разберём, как ускорить контент и собрать первых ИИ‑помощников.{!isShort && ' После регистрации получите тест «Ваш ИИ‑архетип».'}</p></div>
+        <RegistrationWidget deadline={isFresh ? offerDeadline : undefined} giftChoice={isShort} />
+      </section>
 
       <section className="section shell practice-section">
         <header className="section-heading">
