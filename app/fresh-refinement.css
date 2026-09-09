@@ -83,7 +83,7 @@
 
 /* Quiet price caption below the CTA, without another competing card. */
 .theme-fresh .topbar .logo{display:flex;min-width:0}
-.theme-fresh .topbar .date-mark-inline{display:flex;flex-direction:row;gap:6px;width:auto;height:auto;min-height:44px;padding:0;background:none;border:0;border-radius:0;box-shadow:none;white-space:nowrap;color:#284761;font:750 18px/1.3 var(--font-body)}
+.theme-fresh .topbar .date-mark-inline{display:flex;flex-direction:row;gap:6px;width:auto;height:auto;min-height:44px;padding:0;background:transparent!important;border:0!important;border-radius:0;box-shadow:none!important;backdrop-filter:none!important;white-space:nowrap;color:#284761;font:750 18px/1.3 var(--font-body)}
 .theme-fresh .topbar .date-mark-inline i{margin:0;font:650 18px/1.3 var(--font-body);letter-spacing:0;color:#284761}
 .theme-fresh .pill{border:0;background:none;box-shadow:none;padding:0;gap:10px;font-size:17px;color:#284761}
 .theme-fresh .pill>span{background:none;padding:0;border-radius:0}
@@ -120,6 +120,7 @@
 .theme-fresh .hero-action .fresh-countdown{display:flex;align-items:center;justify-content:flex-start;gap:14px;padding:4px 0 0;margin:0;border:0;min-height:0}
 .theme-fresh .hero-action .fresh-countdown-label{font:500 15px/1.5 var(--font-body);color:#847254}
 .theme-fresh .hero-action .fresh-countdown>strong{font:650 18px/1.5 var(--font-body);font-variant-numeric:tabular-nums;letter-spacing:.02em;color:#847254}
+.theme-fresh .fresh-countdown{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important}
 
 /* Portalled dialog uses its own palette rather than inheriting the page theme. */
 .theme-fresh .registration-entry .fresh-countdown{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:8px 14px;width:auto;margin:0 0 16px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none}
