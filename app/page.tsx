@@ -105,6 +105,7 @@ const outcomes = [
 
 function RegistrationWidget({ deadline }: { deadline?: number }) {
   const [open, setOpen] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
   const fallbackUrl = (() => {
     if (typeof window === 'undefined') return 'https://xeniabaranova-school.ru/pl/lite/widget/widget?id=1652829';
     const params = new URLSearchParams(window.location.search);
@@ -126,6 +127,34 @@ function RegistrationWidget({ deadline }: { deadline?: number }) {
     return () => document.removeEventListener('click', openFromCta);
   }, []);
 
+  useEffect(() => {
+    let frame = 0;
+    let observer: MutationObserver | undefined;
+    const attach = () => {
+      const modal = modalRef.current;
+      if (!modal) {
+        frame = window.requestAnimationFrame(attach);
+        return;
+      }
+      const keepWidgetWarm = () => {
+        if (modal.hasAttribute('data-closed')) {
+          modal.removeAttribute('hidden');
+          modal.setAttribute('aria-hidden', 'true');
+        } else {
+          modal.removeAttribute('aria-hidden');
+        }
+      };
+      observer = new MutationObserver(keepWidgetWarm);
+      observer.observe(modal, { attributes: true, attributeFilter: ['hidden', 'data-open', 'data-closed'] });
+      keepWidgetWarm();
+    };
+    attach();
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer?.disconnect();
+    };
+  }, []);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <div className="registration-entry registration-entry-teaser">
@@ -138,7 +167,7 @@ function RegistrationWidget({ deadline }: { deadline?: number }) {
         </DialogTrigger>
         <small><ShieldCheck /> Официальная регистрация школы · данные защищены</small>
       </div>
-      <DialogContent className="registration-modal registration-modal-custom">
+      <DialogContent ref={modalRef} className="registration-modal registration-modal-custom" keepMounted>
         <DialogHeader className="registration-modal-head">
           <DialogTitle>Регистрация на «Новую Эру ИИ»</DialogTitle>
           <DialogDescription>16–17 сентября · каждый день в 12:00 · участие бесплатно</DialogDescription>
@@ -154,11 +183,23 @@ function RegistrationWidget({ deadline }: { deadline?: number }) {
 
 function GetCourseWidget() {
   const slotRef = useRef<HTMLDivElement>(null);
+  const [widgetHeight, setWidgetHeight] = useState(0);
 
   useEffect(() => {
     const slot = slotRef.current;
     if (!slot || slot.dataset.widgetLoaded === 'true') return;
     slot.dataset.widgetLoaded = 'true';
+
+    const handleWidgetMessage = (event: MessageEvent) => {
+      const height = Number(event.data?.height);
+      if (
+        event.data?.uniqName === '71612b8b2e97fffce6755a93f9834697d09b0788'
+        && height > 0
+      ) {
+        setWidgetHeight(height);
+      }
+    };
+    window.addEventListener('message', handleWidgetMessage);
 
     const script = document.createElement('script');
     script.id = '71612b8b2e97fffce6755a93f9834697d09b0788';
@@ -168,9 +209,25 @@ function GetCourseWidget() {
       document.dispatchEvent(new Event('StartWidget71612b8b2e97fffce6755a93f9834697d09b0788'));
     }, { once: true });
     slot.appendChild(script);
+
+    return () => {
+      window.removeEventListener('message', handleWidgetMessage);
+    };
   }, []);
 
-  return <div ref={slotRef} className="registration-frame-wrap registration-widget" />;
+  return (
+    <div className={`registration-widget-shell${widgetHeight > 0 ? ' is-ready' : ''}`}>
+      <div className="registration-widget-loader" role="status" aria-live="polite">
+        <span aria-hidden="true" />
+        <b>Загружаем форму регистрации…</b>
+      </div>
+      <div
+        ref={slotRef}
+        className="registration-frame-wrap registration-widget"
+        style={widgetHeight > 0 ? { height: `${widgetHeight}px` } : undefined}
+      />
+    </div>
+  );
 }
 
 function AutoLoopVideo({ src, poster, label }: { src: string; poster: string; label: string }) {

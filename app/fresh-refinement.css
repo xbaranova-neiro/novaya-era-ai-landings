@@ -158,6 +158,18 @@
 /* Section padding is shared across each boundary, not doubled into a blank screen. */
 .theme-fresh .section,.theme-fresh .fresh-gift-reveal,.theme-fresh .program-section,.theme-fresh .audience-section{padding-block:48px}
 .theme-fresh .register{margin-block:16px 24px;padding:36px 40px;gap:40px}
+
+/* Preload the GetCourse iframe while the dialog is closed and show a useful
+   loading state if somebody opens it before the remote form is ready. */
+.registration-widget-shell{position:relative;min-height:260px;background:#fff}
+.registration-modal[data-closed]{display:block!important;opacity:0;pointer-events:none}
+.registration-widget-shell .registration-widget{min-height:260px;opacity:0;transition:opacity .2s ease}
+.registration-widget-shell.is-ready .registration-widget iframe{height:100%!important}
+.registration-widget-loader{position:absolute;z-index:1;inset:0;display:flex;align-items:center;justify-content:center;gap:12px;padding:32px;color:#526a82;background:linear-gradient(145deg,#fff,#f3f8ff);font:700 14px var(--font-body)}
+.registration-widget-loader span{width:22px;height:22px;border:3px solid rgba(7,94,232,.18);border-top-color:#075ee8;border-radius:50%;animation:registration-spin .8s linear infinite}
+.registration-widget-shell.is-ready .registration-widget{opacity:1}
+.registration-widget-shell.is-ready .registration-widget-loader{display:none}
+@keyframes registration-spin{to{transform:rotate(360deg)}}
 .theme-fresh .section-heading{margin-bottom:32px;gap:28px}
 .theme-fresh .fresh-gift-wrap{gap:40px}
 .theme-fresh .fresh-gift-points{margin-block:26px}
