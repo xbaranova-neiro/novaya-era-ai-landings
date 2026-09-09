@@ -13,9 +13,11 @@ import {
   Fingerprint,
   Gift,
   Layers3,
+  Megaphone,
   MessageCircleMore,
   ShieldCheck,
   Sparkles,
+  TrendingUp,
   Users,
   Workflow,
   Zap,
@@ -103,7 +105,34 @@ const outcomes = [
   ['ЭКОНОМИЯ И РОСТ ДОХОДА', 'Замена подписок своими разработками и план выхода на чек от 100 000 ₽.'],
 ];
 
-function RegistrationWidget({ deadline }: { deadline?: number }) {
+const registrationGifts = [
+  {
+    icon: Sparkles,
+    task: 'УПАКОВАТЬ ЗНАНИЯ В ПРОДУКТ',
+    title: 'Код экспертизы',
+    text: 'Распаковка сильных сторон, позиционирование, контентные рубрики и маршрут создания цифрового продукта с ИИ.',
+  },
+  {
+    icon: Workflow,
+    task: 'НАВЕСТИ ПОРЯДОК В ПРОЦЕССАХ',
+    title: 'Бизнес на автопилоте',
+    text: '20 задач для передачи ИИ, формула приоритета и понятный план запуска автоматизации за 14 дней.',
+  },
+  {
+    icon: Megaphone,
+    task: 'СОБРАТЬ МАРКЕТИНГ В СИСТЕМУ',
+    title: 'Маркетинговый движок',
+    text: '50 готовых AI-команд для анализа аудитории, сильных офферов, контент-планов, рекламы и ИИ-видео.',
+  },
+  {
+    icon: TrendingUp,
+    task: 'ПОВЫСИТЬ ЦЕННОСТЬ СВОИХ УСЛУГ',
+    title: 'Чек ×2',
+    text: '10 востребованных ИИ-услуг, идеи для портфолио и шаблон коммерческого предложения.',
+  },
+];
+
+function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: number; giftChoice?: boolean }) {
   const [open, setOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const fallbackUrl = (() => {
@@ -121,7 +150,9 @@ function RegistrationWidget({ deadline }: { deadline?: number }) {
       const link = target?.closest('a[href="#register"]');
       if (!link) return;
       event.preventDefault();
-      setOpen(true);
+      // Defer opening until the link click has finished. Otherwise the dialog
+      // can interpret that same tap as an outside press and close immediately.
+      window.requestAnimationFrame(() => setOpen(true));
     };
     document.addEventListener('click', openFromCta);
     return () => document.removeEventListener('click', openFromCta);
@@ -161,6 +192,7 @@ function RegistrationWidget({ deadline }: { deadline?: number }) {
         <div className="registration-entry-top"><span>Бесплатное участие</span><b>0 ₽</b></div>
         <h3>16–17 сентября</h3>
         <ul><li><Check />Каждый день в 12:00</li><li><Check />Онлайн · два практических эфира</li></ul>
+        {giftChoice && <p className="registration-gift-note"><Gift /> После регистрации выберите один из четырёх PDF-подарков</p>}
         {deadline !== undefined && <EventCountdown deadline={deadline} />}
         <DialogTrigger render={<Button className="registration-cta" />}>
           Зарегистрироваться бесплатно <ArrowRight />
@@ -170,7 +202,7 @@ function RegistrationWidget({ deadline }: { deadline?: number }) {
       <DialogContent ref={modalRef} className="registration-modal registration-modal-custom" keepMounted>
         <DialogHeader className="registration-modal-head">
           <DialogTitle>Регистрация на «Новую Эру ИИ»</DialogTitle>
-          <DialogDescription>16–17 сентября · каждый день в 12:00 · участие бесплатно</DialogDescription>
+          <DialogDescription>{giftChoice ? '16–17 сентября · участие бесплатно · один из четырёх PDF-подарков на выбор' : '16–17 сентября · каждый день в 12:00 · участие бесплатно'}</DialogDescription>
         </DialogHeader>
         <div className="registration-modal-body">
           <GetCourseWidget />
@@ -311,7 +343,7 @@ function EventCountdown({ deadline }: { deadline: number }) {
   </div>;
 }
 
-function FreshUrgencyPopup({ deadline }: { deadline: number }) {
+function FreshUrgencyPopup({ deadline, giftChoice = false }: { deadline: number; giftChoice?: boolean }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -323,12 +355,14 @@ function FreshUrgencyPopup({ deadline }: { deadline: number }) {
     <DialogContent className="fresh-urgency-popup">
       <DialogHeader className="fresh-popup-head">
         <span className="fresh-popup-kicker">НОВАЯ ЭРА ИИ <span>2 дня · онлайн</span></span>
-        <DialogTitle>Ваш следующий шаг —<br /><em>вместе с ИИ.</em></DialogTitle>
-        <DialogDescription>Присоединяйтесь к бесплатному курсу и начните применять ИИ к своим задачам.</DialogDescription>
+        <DialogTitle>{giftChoice ? <>Выберите подарок<br /><em>под свою задачу.</em></> : <>Ваш следующий шаг —<br /><em>вместе с ИИ.</em></>}</DialogTitle>
+        <DialogDescription>{giftChoice ? 'Зарегистрируйтесь бесплатно и заберите один из четырёх практических PDF-гайдов.' : 'Присоединяйтесь к бесплатному курсу и начните применять ИИ к своим задачам.'}</DialogDescription>
       </DialogHeader>
-      <div className="fresh-popup-gift"><span aria-hidden="true"><Gift /></span><div><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>Ваша личная карта роста с ИИ</b><p>Сильная роль, подходящие инструменты и первый шаг — по результатам теста.</p></div></div>
+      {giftChoice ? <div className="fresh-popup-gift-grid">
+        {registrationGifts.map((gift, index) => <div key={gift.title}><span>0{index + 1}</span><b>{gift.title}</b></div>)}
+      </div> : <div className="fresh-popup-gift"><span aria-hidden="true"><Gift /></span><div><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>Ваша личная карта роста с ИИ</b><p>Сильная роль, подходящие инструменты и первый шаг — по результатам теста.</p></div></div>}
       <EventCountdown deadline={deadline} />
-      <a className="fresh-popup-cta" href="#register" onClick={() => setOpen(false)}>Зарегистрироваться бесплатно <ArrowRight aria-hidden="true" /></a>
+      <a className="fresh-popup-cta" href="#register" onClick={() => setOpen(false)}>{giftChoice ? 'Выбрать подарок и зарегистрироваться' : 'Зарегистрироваться бесплатно'} <ArrowRight aria-hidden="true" /></a>
       <button className="fresh-popup-later" onClick={() => setOpen(false)}>Пока посмотрю программу</button>
     </DialogContent>
   </Dialog>;
@@ -349,7 +383,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
 
   return (
     <main className={`site ${isShort ? 'site-short' : 'site-full'} ${themeClass}`}>
-      {isFresh && !isShort && <FreshUrgencyPopup deadline={offerDeadline} />}
+      {isFresh && <FreshUrgencyPopup deadline={offerDeadline} giftChoice={isShort} />}
       <div className="hero-stage" id="top">
         <header className="topbar shell">
           <a href="#top" className="logo" aria-label="16–17 сентября, начало в 12:00">
@@ -383,7 +417,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
               <span><b>9 работ</b><small>в вашем портфолио</small></span>
               <span><b>Практика</b><small>на ваших задачах</small></span>
             </div>
-            {!isShort && <a className="gift-teaser" href={isFresh ? '#fresh-gift' : '#gift'}><Gift /><span><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>{isFresh ? 'Персональная карта: ваш ИИ‑архетип, стек и первый маршрут' : 'Персональный тест «Ваш ИИ‑архетип»'}</b></span><ArrowRight /></a>}
+            {!isShort ? <a className="gift-teaser" href={isFresh ? '#fresh-gift' : '#gift'}><Gift /><span><small>ПОДАРОК ЗА РЕГИСТРАЦИЮ</small><b>{isFresh ? 'Персональная карта: ваш ИИ‑архетип, стек и первый маршрут' : 'Персональный тест «Ваш ИИ‑архетип»'}</b></span><ArrowRight /></a> : <a className="gift-teaser short-gifts-teaser" href="#registration-gifts"><Gift /><span><small>4 ПОДАРКА ЗА РЕГИСТРАЦИЮ</small><b>Выберите PDF-гайд под свою задачу</b></span><ArrowRight /></a>}
           </div>
 
           <div className="hero-visual">
@@ -423,8 +457,28 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
 
       <section className="register shell" id="register">
         <div className="register-copy"><small>БЕСПЛАТНЫЙ ПРАКТИКУМ</small><h2>Примените ИИ<br />к своей задаче</h2><p>Приходите с идеей или рабочим проектом. На эфирах разберём, как ускорить контент и собрать первых ИИ‑помощников.{!isShort && ' После регистрации получите тест «Ваш ИИ‑архетип».'}</p></div>
-        <RegistrationWidget deadline={isFresh ? offerDeadline : undefined} />
+        <RegistrationWidget deadline={isFresh ? offerDeadline : undefined} giftChoice={isShort} />
       </section>
+
+      {isShort && <section className="short-gifts-section" id="registration-gifts">
+        <div className="shell short-gifts-wrap">
+          <header className="short-gifts-head">
+            <small><Gift /> 4 ПОДАРКА ЗА РЕГИСТРАЦИЮ</small>
+            <h2>Выберите гайд<br /><em>под свою задачу</em></h2>
+            <p>После регистрации мы пришлём письмо. В нём вы сможете бесплатно забрать один из четырёх PDF-гайдов.</p>
+          </header>
+          <div className="short-gifts-grid">
+            {registrationGifts.map(({ icon: Icon, task, title, text }, index) => <article key={title}>
+              <div className="short-gift-top"><span>0{index + 1}</span><Icon aria-hidden="true" /></div>
+              <small>{task}</small>
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <a href="#register">Выбрать этот подарок <ArrowRight /></a>
+            </article>)}
+          </div>
+          <p className="short-gifts-note"><Check /> Один подарок на выбор · бесплатно сразу после регистрации</p>
+        </div>
+      </section>}
 
       <section className="section shell practice-section">
         <header className="section-heading">
@@ -540,7 +594,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
 
       <section className="outcomes-section">
         <div className="shell outcomes-wrap">
-          <div className="outcomes-title"><small>ВСЕГО ЗА 3 ДНЯ</small><h2>Что останется<br /><em>у вас</em></h2></div>
+          <div className="outcomes-title"><small>ВСЕГО ЗА 2 ДНЯ</small><h2>Что останется<br /><em>у вас</em></h2></div>
           <div className="outcomes-list">
             {outcomes.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}
           </div>
@@ -595,7 +649,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
 
           <div className="footer-action">
             <small>ЗАНЯТЬ МЕСТО НА ОНЛАЙН‑КУРСЕ</small>
-            <h3>Войдите в Новую Эру ИИ<br />за три практических дня</h3>
+            <h3>Войдите в Новую Эру ИИ<br />за два практических дня</h3>
             <a href="#register">Занять место бесплатно <ArrowRight /></a>
             <nav>
               <a href="https://xeniabaranova-school.ru/politica" target="_blank" rel="noreferrer">Политика обработки данных</a>
