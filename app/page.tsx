@@ -135,10 +135,14 @@ const registrationGifts = [
 function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: number; giftChoice?: boolean }) {
   const [open, setOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+  const widgetId = giftChoice ? '1654243' : '1652829';
+  const widgetScriptId = giftChoice
+    ? '9e67bfb57cff2ce4ac5540cdb666198763a7bee5'
+    : '71612b8b2e97fffce6755a93f9834697d09b0788';
   const fallbackUrl = (() => {
-    if (typeof window === 'undefined') return 'https://xeniabaranova-school.ru/pl/lite/widget/widget?id=1652829';
+    if (typeof window === 'undefined') return `https://xeniabaranova-school.ru/pl/lite/widget/widget?id=${widgetId}`;
     const params = new URLSearchParams(window.location.search);
-    params.set('id', '1652829');
+    params.set('id', widgetId);
     params.set('ref', document.referrer);
     params.set('loc', window.location.href);
     return `https://xeniabaranova-school.ru/pl/lite/widget/widget?${params.toString()}`;
@@ -205,7 +209,7 @@ function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: numbe
           <DialogDescription>{giftChoice ? '16–17 сентября · участие бесплатно · один из четырёх PDF-подарков на выбор' : '16–17 сентября · каждый день в 12:00 · участие бесплатно'}</DialogDescription>
         </DialogHeader>
         <div className="registration-modal-body">
-          <GetCourseWidget />
+          <GetCourseWidget widgetId={widgetId} widgetScriptId={widgetScriptId} />
           <a className="registration-fallback" href={fallbackUrl} target="_blank" rel="noreferrer">Не загружается форма? Открыть отдельно ↗</a>
         </div>
       </DialogContent>
@@ -213,7 +217,7 @@ function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: numbe
   );
 }
 
-function GetCourseWidget() {
+function GetCourseWidget({ widgetId, widgetScriptId }: { widgetId: string; widgetScriptId: string }) {
   const slotRef = useRef<HTMLDivElement>(null);
   const [widgetHeight, setWidgetHeight] = useState(0);
 
@@ -225,7 +229,7 @@ function GetCourseWidget() {
     const handleWidgetMessage = (event: MessageEvent) => {
       const height = Number(event.data?.height);
       if (
-        event.data?.uniqName === '71612b8b2e97fffce6755a93f9834697d09b0788'
+        event.data?.uniqName === widgetScriptId
         && height > 0
       ) {
         setWidgetHeight(height);
@@ -234,18 +238,18 @@ function GetCourseWidget() {
     window.addEventListener('message', handleWidgetMessage);
 
     const script = document.createElement('script');
-    script.id = '71612b8b2e97fffce6755a93f9834697d09b0788';
-    script.src = 'https://xeniabaranova-school.ru/pl/lite/widget/script?id=1652829';
+    script.id = widgetScriptId;
+    script.src = `https://xeniabaranova-school.ru/pl/lite/widget/script?id=${widgetId}`;
     script.async = true;
     script.addEventListener('load', () => {
-      document.dispatchEvent(new Event('StartWidget71612b8b2e97fffce6755a93f9834697d09b0788'));
+      document.dispatchEvent(new Event(`StartWidget${widgetScriptId}`));
     }, { once: true });
     slot.appendChild(script);
 
     return () => {
       window.removeEventListener('message', handleWidgetMessage);
     };
-  }, []);
+  }, [widgetId, widgetScriptId]);
 
   return (
     <div className={`registration-widget-shell${widgetHeight > 0 ? ' is-ready' : ''}`}>
