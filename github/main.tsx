@@ -5,7 +5,7 @@ import '../app/globals.css';
 import '../app/fresh-refinement.css';
 
 const normalizedPath = window.location.pathname.replace(/\/+$/, '');
-const variant = normalizedPath.endsWith('/short') ? 'short' : 'full';
+const variant = normalizedPath.endsWith('/short') || normalizedPath.endsWith('/nov') ? 'short' : 'full';
 const theme = normalizedPath.endsWith('/presentation-fresh')
   ? 'fresh'
   : normalizedPath.endsWith('/presentation-dark')

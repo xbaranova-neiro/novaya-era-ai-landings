@@ -21,6 +21,7 @@ export default defineConfig({
       input: {
         main: path.join(rootDir, 'github/index.html'),
         short: path.join(rootDir, 'github/short/index.html'),
+        nov: path.join(rootDir, 'github/nov/index.html'),
         ...(!process.env.GITHUB_ACTIONS ? {
           presentation: path.join(rootDir, 'github/presentation/index.html'),
           presentationDark: path.join(rootDir, 'github/presentation-dark/index.html'),
