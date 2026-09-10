@@ -367,7 +367,10 @@ function FreshUrgencyPopup({ deadline, giftChoice = false }: { deadline: number;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setOpen(true), 60_000);
+    const timer = window.setTimeout(() => {
+      const hasOpenDialog = document.querySelector('[data-slot="dialog-content"][data-open]');
+      if (!hasOpenDialog) setOpen(true);
+    }, 60_000);
     return () => window.clearTimeout(timer);
   }, []);
 
