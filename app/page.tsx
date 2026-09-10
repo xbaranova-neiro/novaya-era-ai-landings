@@ -504,7 +504,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
             <div className="passport-identity"><small>ИМЕННОЙ ЦИФРОВОЙ ДОКУМЕНТ</small><strong>КСЕНИЯ<br />БАРАНОВА</strong><span>ИИ‑КРЕАТОР · СОЗДАТЕЛЬ АГЕНТОВ</span></div>
             <div className="passport-holo"><span>ID</span></div>
             <div className="passport-serial">ID · KB 0009 / 2026</div>
-            <div className="passport-foot"><span>3 ДНЯ · ДОМАШНИЕ ЗАДАНИЯ</span><b><ShieldCheck /> VERIFIED</b></div>
+            <div className="passport-foot"><span>2 ДНЯ · ДОМАШНИЕ ЗАДАНИЯ</span><b><ShieldCheck /> VERIFIED</b></div>
           </div>
           <div className="portfolio-badge"><b>9</b><span>готовых работ<br />под реальные проекты</span></div>
         </div>
