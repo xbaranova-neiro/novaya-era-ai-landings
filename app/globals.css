@@ -385,7 +385,7 @@
 .registration-entry h3{font-size:clamp(27px,2.6vw,38px);line-height:1.15;margin:20px 0}
 .hero-description{max-width:620px;font-size:19px;font-weight:400}
 .practice-manifesto,.outcomes-section{display:none}
-.site-short .passport-band,.site-short .audience-section,.site-short .format-section{display:none}
+.site-short .audience-section,.site-short .format-section{display:none}
 .format-grid article{min-height:0;padding:24px}
 .format-grid h3{margin-top:28px}
 .section,.audience-section{padding-top:64px;padding-bottom:64px}
