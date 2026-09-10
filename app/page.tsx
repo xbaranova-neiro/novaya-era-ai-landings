@@ -132,6 +132,17 @@ const registrationGifts = [
   },
 ];
 
+function releasePageScrollAfterDialog() {
+  window.requestAnimationFrame(() => {
+    if (document.querySelector('[data-slot="dialog-content"][data-open]')) return;
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('padding-right');
+    document.body.style.removeProperty('touch-action');
+    document.documentElement.style.removeProperty('overflow');
+    document.documentElement.style.removeProperty('touch-action');
+  });
+}
+
 function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: number; giftChoice?: boolean }) {
   const [open, setOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -147,6 +158,11 @@ function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: numbe
     params.set('loc', window.location.href);
     return `https://xeniabaranova-school.ru/pl/lite/widget/widget?${params.toString()}`;
   })();
+
+  useEffect(() => {
+    if (!open) releasePageScrollAfterDialog();
+    return releasePageScrollAfterDialog;
+  }, [open]);
 
   useEffect(() => {
     const openFromCta = (event: MouseEvent) => {
@@ -355,7 +371,12 @@ function FreshUrgencyPopup({ deadline, giftChoice = false }: { deadline: number;
     return () => window.clearTimeout(timer);
   }, []);
 
-  return <Dialog open={open} onOpenChange={setOpen}>
+  useEffect(() => {
+    if (!open) releasePageScrollAfterDialog();
+    return releasePageScrollAfterDialog;
+  }, [open]);
+
+  return <Dialog open={open} onOpenChange={setOpen} modal={false}>
     <DialogContent className="fresh-urgency-popup">
       <DialogHeader className="fresh-popup-head">
         <span className="fresh-popup-kicker">НОВАЯ ЭРА ИИ <span>2 дня · онлайн</span></span>
