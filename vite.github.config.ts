@@ -28,6 +28,7 @@ export default defineConfig({
           presentationFresh: path.join(rootDir, 'github/presentation-fresh/index.html'),
         } : {}),
         pro: path.join(rootDir, 'github/pro/index.html'),
+        pro1day: path.join(rootDir, 'github/pro1day/index.html'),
       },
     },
   },
