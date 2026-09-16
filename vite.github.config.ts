@@ -29,6 +29,7 @@ export default defineConfig({
         } : {}),
         pro: path.join(rootDir, 'github/pro/index.html'),
         pro1day: path.join(rootDir, 'github/pro1day/index.html'),
+        pro2day: path.join(rootDir, 'github/pro2day/index.html'),
       },
     },
   },
