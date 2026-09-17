@@ -211,7 +211,7 @@ function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: numbe
       <div className="registration-entry registration-entry-teaser">
         <div className="registration-entry-top"><span>Бесплатное участие</span><b>0 ₽</b></div>
         <h3>16–17 сентября</h3>
-        <ul><li><Check />Каждый день в 12:00</li><li><Check />Онлайн · два практических эфира</li></ul>
+        <ul><li><Check />Каждый день в 19:00</li><li><Check />Онлайн · два практических эфира</li></ul>
         {giftChoice && <p className="registration-gift-note"><Gift /> После регистрации выберите один из четырёх PDF-подарков</p>}
         {deadline !== undefined && <EventCountdown deadline={deadline} />}
         <DialogTrigger render={<Button className="registration-cta" />}>
@@ -222,7 +222,7 @@ function RegistrationWidget({ deadline, giftChoice = false }: { deadline?: numbe
       <DialogContent ref={modalRef} className="registration-modal registration-modal-custom" keepMounted>
         <DialogHeader className="registration-modal-head">
           <DialogTitle>Регистрация на «Новую Эру ИИ»</DialogTitle>
-          <DialogDescription>{giftChoice ? '16–17 сентября · участие бесплатно · один из четырёх PDF-подарков на выбор' : '16–17 сентября · каждый день в 12:00 · участие бесплатно'}</DialogDescription>
+          <DialogDescription>{giftChoice ? '16–17 сентября · участие бесплатно · один из четырёх PDF-подарков на выбор' : '16–17 сентября · каждый день в 19:00 · участие бесплатно'}</DialogDescription>
         </DialogHeader>
         <div className="registration-modal-body">
           <GetCourseWidget widgetId={widgetId} widgetScriptId={widgetScriptId} />
@@ -414,11 +414,11 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
       {isFresh && <FreshUrgencyPopup deadline={offerDeadline} giftChoice={isShort} />}
       <div className="hero-stage" id="top">
         <header className="topbar shell">
-          <a href="#top" className="logo" aria-label="16–17 сентября, начало в 12:00">
-            {isFresh ? <span className="date-mark date-mark-inline">16–17 сентября <i>· 12:00</i></span> : <span className="date-mark"><em>16–17</em><i>СЕН · 12:00</i></span>}
+          <a href="#top" className="logo" aria-label="16–17 сентября, начало в 19:00">
+            {isFresh ? <span className="date-mark date-mark-inline">16–17 сентября <i>· 19:00</i></span> : <span className="date-mark"><em>16–17</em><i>СЕН · 19:00</i></span>}
           </a>
           <div className="top-facts">
-              <span><b>16–17 СЕНТЯБРЯ</b>каждый день в 12:00</span>
+              <span><b>16–17 СЕНТЯБРЯ</b>каждый день в 19:00</span>
             <span><b>ONLINE</b>из любой точки</span>
             <a href="#register">Занять место <ArrowRight /></a>
           </div>
@@ -441,7 +441,7 @@ export default function Home({ variant = 'full', assetBase = './', theme = 'clas
             </div>
             {isFresh && <HeroFilm asset={asset} />}
             <div className="hero-proof">
-              <span><b>16–17.09</b><small>каждый день в 12:00</small></span>
+              <span><b>16–17.09</b><small>каждый день в 19:00</small></span>
               <span><b>9 работ</b><small>в вашем портфолио</small></span>
               <span><b>Практика</b><small>на ваших задачах</small></span>
             </div>
